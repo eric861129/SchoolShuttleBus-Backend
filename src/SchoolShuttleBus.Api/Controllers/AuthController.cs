@@ -65,4 +65,20 @@ public sealed class AuthController(IAuthService authService, ICurrentUserAccesso
         var result = await authService.GetCurrentUserAsync(userId, cancellationToken);
         return result.IsSuccess ? Ok(result.Value) : NotFound(new ProblemDetails { Title = result.Error });
     }
+
+    /// <summary>
+    /// Returns the authenticated user's frontend bootstrap context, including accessible students and staff profile metadata.
+    /// </summary>
+    [Authorize]
+    [HttpGet("context")]
+    public async Task<ActionResult<CurrentUserContextResponse>> ContextAsync(CancellationToken cancellationToken)
+    {
+        if (currentUserAccessor.UserId is not { } userId)
+        {
+            return Unauthorized();
+        }
+
+        var result = await authService.GetCurrentUserContextAsync(userId, cancellationToken);
+        return result.IsSuccess ? Ok(result.Value) : NotFound(new ProblemDetails { Title = result.Error });
+    }
 }

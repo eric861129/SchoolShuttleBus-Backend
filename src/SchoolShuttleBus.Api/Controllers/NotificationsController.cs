@@ -22,7 +22,7 @@ public sealed class NotificationsController(
     /// </summary>
     [Authorize(Roles = RoleNames.Administrator)]
     [HttpPost("reminders/run")]
-    public async Task<ActionResult> RunRemindersAsync(CancellationToken cancellationToken)
+    public async Task<ActionResult<ReminderRunResponse>> RunRemindersAsync(CancellationToken cancellationToken)
     {
         var result = await notificationService.RunRemindersAsync(currentUserAccessor.UserId, cancellationToken);
         return result.IsSuccess ? Ok(result.Value) : BadRequest(new ProblemDetails { Title = result.Error });

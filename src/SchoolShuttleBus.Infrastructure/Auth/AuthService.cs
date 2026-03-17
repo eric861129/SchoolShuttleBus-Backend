@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SchoolShuttleBus.Application.Auth;
 using SchoolShuttleBus.Application.Common;
+using SchoolShuttleBus.Domain.Shared;
 using SchoolShuttleBus.Contracts.Auth;
 using SchoolShuttleBus.Infrastructure.Persistence;
 
@@ -71,6 +72,31 @@ public sealed class AuthService(
         return Result<CurrentUserResponse>.Ok(new CurrentUserResponse(user.Id, user.Email ?? string.Empty, roles.ToArray()));
     }
 
+    public async Task<Result<CurrentUserContextResponse>> GetCurrentUserContextAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        var user = await userManager.Users
+            .AsNoTracking()
+            .SingleOrDefaultAsync(candidate => candidate.Id == userId, cancellationToken);
+
+        if (user is null)
+        {
+            return Result<CurrentUserContextResponse>.Fail("User not found.");
+        }
+
+        var roles = (await userManager.GetRolesAsync(user)).ToArray();
+        var students = await GetAccessibleStudentsAsync(userId, roles, cancellationToken);
+        var staffProfile = await GetStaffProfileAsync(userId, roles, cancellationToken);
+        var displayName = await ResolveDisplayNameAsync(userId, user.Email ?? string.Empty, roles, students, staffProfile, cancellationToken);
+
+        return Result<CurrentUserContextResponse>.Ok(new CurrentUserContextResponse(
+            user.Id,
+            user.Email ?? string.Empty,
+            roles,
+            displayName,
+            students,
+            staffProfile));
+    }
+
     private async Task<AppUser?> ResolveUserByAccountAsync(string account, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(account))
@@ -111,6 +137,93 @@ public sealed class AuthService(
         }
 
         return await userManager.FindByNameAsync(account);
+    }
+
+    private async Task<AccessibleStudentResponse[]> GetAccessibleStudentsAsync(Guid userId, IReadOnlyCollection<string> roles, CancellationToken cancellationToken)
+    {
+        if (roles.Contains(RoleNames.Student))
+        {
+            return await dbContext.Students
+                .AsNoTracking()
+                .Where(student => student.UserId == userId)
+                .OrderBy(student => student.StudentNumber)
+                .ThenBy(student => student.FullName)
+                .Select(student => new AccessibleStudentResponse(
+                    student.Id,
+                    student.StudentNumber,
+                    student.FullName,
+                    student.Stage,
+                    student.GradeLabel))
+                .ToArrayAsync(cancellationToken);
+        }
+
+        if (roles.Contains(RoleNames.Parent))
+        {
+            return await dbContext.Students
+                .AsNoTracking()
+                .Where(student => student.GuardianLinks.Any(link => link.Guardian.UserId == userId))
+                .OrderBy(student => student.StudentNumber)
+                .ThenBy(student => student.FullName)
+                .Select(student => new AccessibleStudentResponse(
+                    student.Id,
+                    student.StudentNumber,
+                    student.FullName,
+                    student.Stage,
+                    student.GradeLabel))
+                .ToArrayAsync(cancellationToken);
+        }
+
+        return [];
+    }
+
+    private async Task<StaffProfileSummaryResponse?> GetStaffProfileAsync(Guid userId, IReadOnlyCollection<string> roles, CancellationToken cancellationToken)
+    {
+        if (!roles.Contains(RoleNames.Teacher) && !roles.Contains(RoleNames.Administrator))
+        {
+            return null;
+        }
+
+        return await dbContext.StaffProfiles
+            .AsNoTracking()
+            .Where(profile => profile.UserId == userId)
+            .Select(profile => new StaffProfileSummaryResponse(
+                profile.Id,
+                profile.EmployeeNumber,
+                profile.FullName,
+                profile.CanManageAllRoutes))
+            .SingleOrDefaultAsync(cancellationToken);
+    }
+
+    private async Task<string> ResolveDisplayNameAsync(
+        Guid userId,
+        string email,
+        IReadOnlyCollection<string> roles,
+        IReadOnlyCollection<AccessibleStudentResponse> students,
+        StaffProfileSummaryResponse? staffProfile,
+        CancellationToken cancellationToken)
+    {
+        if (roles.Contains(RoleNames.Student))
+        {
+            return students.Select(student => student.StudentName).FirstOrDefault() ?? email;
+        }
+
+        if (roles.Contains(RoleNames.Parent))
+        {
+            var guardianName = await dbContext.Guardians
+                .AsNoTracking()
+                .Where(guardian => guardian.UserId == userId)
+                .Select(guardian => guardian.FullName)
+                .SingleOrDefaultAsync(cancellationToken);
+
+            return string.IsNullOrWhiteSpace(guardianName) ? email : guardianName;
+        }
+
+        if (roles.Contains(RoleNames.Teacher) || roles.Contains(RoleNames.Administrator))
+        {
+            return string.IsNullOrWhiteSpace(staffProfile?.FullName) ? email : staffProfile.FullName;
+        }
+
+        return email;
     }
 
     private async Task<TokenResponse> CreateTokenEnvelopeAsync(AppUser user, CancellationToken cancellationToken)

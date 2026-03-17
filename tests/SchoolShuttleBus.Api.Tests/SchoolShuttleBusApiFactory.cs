@@ -25,7 +25,9 @@ public sealed class SchoolShuttleBusApiFactory : WebApplicationFactory<Program>
                 ["ConnectionStrings:SchoolShuttleBus"] = "Data Source=unused",
                 ["Jwt:Issuer"] = "SchoolShuttleBus.Tests",
                 ["Jwt:Audience"] = "SchoolShuttleBus.Tests",
-                ["Jwt:SigningKey"] = "integration-test-signing-key-1234567890"
+                ["Jwt:SigningKey"] = "integration-test-signing-key-1234567890",
+                ["Cors:AllowedOrigins:0"] = "https://frontend.test",
+                ["Cors:AllowedOrigins:1"] = "http://localhost:5173"
             });
         });
 

@@ -1,3 +1,4 @@
+using SchoolShuttleBus.Contracts.Auth;
 using SchoolShuttleBus.Domain.Shared;
 
 namespace SchoolShuttleBus.Contracts.Admin;
@@ -13,3 +14,14 @@ public sealed record BroadcastResponse(Guid BroadcastAnnouncementId, Guid Notifi
 public sealed record CreateReportRequest(ReportType ReportType, ExportFormat ExportFormat, DateOnly? StartDate, DateOnly? EndDate);
 
 public sealed record ReportExportResponse(Guid ReportExportId, string FileName, string ContentType, ReportType ReportType, ExportFormat ExportFormat, DateTimeOffset CreatedAtUtc);
+
+public sealed record AdminLookupsResponse(
+    IReadOnlyCollection<AdminStudentLookupResponse> Students,
+    IReadOnlyCollection<StaffProfileSummaryResponse> StaffProfiles);
+
+public sealed record AdminStudentLookupResponse(
+    Guid StudentId,
+    string StudentNumber,
+    string StudentName,
+    StudentStage Stage,
+    string GradeLabel);
