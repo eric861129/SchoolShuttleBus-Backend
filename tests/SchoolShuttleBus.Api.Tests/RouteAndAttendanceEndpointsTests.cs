@@ -91,6 +91,28 @@ public sealed class RouteAndAttendanceEndpointsTests : IClassFixture<SchoolShutt
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
+    [Fact]
+    public async Task GetAttendanceSessions_ShouldContainSeededActiveRoster_ForTeacherDemo()
+    {
+        using var client = _factory.CreateClient();
+        var token = await client.LoginAndGetAccessTokenAsync("T0001", "P@ssw0rd!");
+        using var request = new HttpRequestMessage(HttpMethod.Get, "/api/attendance/sessions");
+        request.Headers.Authorization = new("Bearer", token);
+
+        var response = await client.SendAsync(request);
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var sessions = await response.Content.ReadFromJsonAsync<IReadOnlyCollection<AttendanceSessionEnvelope>>();
+        sessions.Should().NotBeNull();
+        sessions!
+            .Should()
+            .ContainSingle(session =>
+                session.RouteId == DemoSeedConstants.MorningRouteId &&
+                session.Date == new DateOnly(2026, 3, 18) &&
+                !session.IsCompleted &&
+                session.Records.Count >= 3);
+    }
+
     private sealed record RouteEnvelope(Guid RouteId, string RouteName);
 
     private sealed record AttendanceRecordEnvelope(Guid AttendanceRecordId, Guid StudentId, string StudentName, AttendanceStatus Status, string EmergencyPhoneSnapshot);

@@ -412,6 +412,22 @@ public sealed class SeedDataService(
                 [
                     CreateAttendanceRecord(studentFive, guardianFive.PhoneNumber, AttendanceStatus.Present)
                 ]
+            },
+            new AttendanceSession
+            {
+                Id = Guid.Parse("67676767-6767-6767-6767-676767676764"),
+                Route = routeToSchool,
+                Date = weekStart.AddDays(2),
+                Direction = TripDirection.ToSchool,
+                IsCompleted = false,
+                CreatedByStaffProfile = staffProfile,
+                CreatedAtUtc = new DateTimeOffset(2026, 3, 18, 0, 15, 0, TimeSpan.Zero),
+                Records =
+                [
+                    CreateAttendanceRecord(studentProfile, guardian.PhoneNumber, AttendanceStatus.Present),
+                    CreateAttendanceRecord(studentTwo, guardianTwo.PhoneNumber, AttendanceStatus.Pending),
+                    CreateAttendanceRecord(studentThree, guardianThree.PhoneNumber, AttendanceStatus.Present)
+                ]
             }
         };
 
