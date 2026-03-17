@@ -1,0 +1,66 @@
+name: backend-ci-cd
+
+on:
+  push:
+    branches:
+      - main
+      - feature/**
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore local tools
+        run: dotnet tool restore
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build SchoolShuttleBus.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test SchoolShuttleBus.sln --configuration Release --no-build
+
+  deploy:
+    needs: build-test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.AZURE_WEBAPP_NAME != '' && secrets.AZURE_WEBAPP_PUBLISH_PROFILE != '' && secrets.AZURE_SQL_CONNECTION_STRING != ''
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore local tools
+        run: dotnet tool restore
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Apply migrations
+        env:
+          ConnectionStrings__SchoolShuttleBus: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+        run: dotnet dotnet-ef database update --project src/SchoolShuttleBus.Infrastructure --startup-project src/SchoolShuttleBus.Api
+
+      - name: Publish API
+        run: dotnet publish src/SchoolShuttleBus.Api/SchoolShuttleBus.Api.csproj -c Release -o publish
+
+      - name: Deploy to Azure App Service
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: publish
