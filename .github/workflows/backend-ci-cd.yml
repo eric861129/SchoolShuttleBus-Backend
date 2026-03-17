@@ -18,7 +18,7 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 9.0.x
+          dotnet-version: 8.0.x
 
       - name: Restore local tools
         run: dotnet tool restore
@@ -34,7 +34,7 @@ jobs:
 
   deploy:
     needs: build-test
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.AZURE_WEBAPP_NAME != '' && secrets.AZURE_WEBAPP_PUBLISH_PROFILE != '' && secrets.AZURE_SQL_CONNECTION_STRING != ''
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -42,7 +42,18 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 9.0.x
+          dotnet-version: 8.0.x
+
+      - name: Validate deployment secrets
+        shell: pwsh
+        env:
+          AZURE_WEBAPP_NAME: ${{ secrets.AZURE_WEBAPP_NAME }}
+          AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          AZURE_SQL_CONNECTION_STRING: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:AZURE_WEBAPP_NAME)) { throw "Missing secret: AZURE_WEBAPP_NAME" }
+          if ([string]::IsNullOrWhiteSpace($env:AZURE_WEBAPP_PUBLISH_PROFILE)) { throw "Missing secret: AZURE_WEBAPP_PUBLISH_PROFILE" }
+          if ([string]::IsNullOrWhiteSpace($env:AZURE_SQL_CONNECTION_STRING)) { throw "Missing secret: AZURE_SQL_CONNECTION_STRING" }
 
       - name: Restore local tools
         run: dotnet tool restore
