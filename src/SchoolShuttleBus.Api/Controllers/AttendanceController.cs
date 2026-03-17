@@ -7,7 +7,7 @@ using SchoolShuttleBus.Domain.Shared;
 namespace SchoolShuttleBus.Api.Controllers;
 
 /// <summary>
-/// Attendance session and record endpoints for onboard roll call workflows.
+/// 提供車上點名流程使用的點名場次與點名紀錄相關端點。
 /// </summary>
 [ApiController]
 [Authorize]
@@ -15,14 +15,14 @@ namespace SchoolShuttleBus.Api.Controllers;
 public sealed class AttendanceController(IAttendanceService attendanceService) : ControllerBase
 {
     /// <summary>
-    /// Returns the attendance sessions visible to the current user.
+    /// 取得目前使用者可查看的點名場次列表。
     /// </summary>
     [HttpGet("sessions")]
     public async Task<ActionResult<IReadOnlyCollection<AttendanceSessionResponse>>> GetSessionsAsync(CancellationToken cancellationToken)
         => Ok(await attendanceService.GetSessionsAsync(cancellationToken));
 
     /// <summary>
-    /// Creates a roll call session from route registrations.
+    /// 依據路線搭乘登記資料建立一筆點名場次。
     /// </summary>
     [Authorize(Roles = $"{RoleNames.Teacher},{RoleNames.Administrator}")]
     [HttpPost("sessions")]
@@ -33,7 +33,7 @@ public sealed class AttendanceController(IAttendanceService attendanceService) :
     }
 
     /// <summary>
-    /// Updates a single student's attendance status.
+    /// 更新單一學生的點名狀態。
     /// </summary>
     [Authorize(Roles = $"{RoleNames.Teacher},{RoleNames.Administrator}")]
     [HttpPatch("records/{recordId:guid}")]
@@ -44,7 +44,7 @@ public sealed class AttendanceController(IAttendanceService attendanceService) :
     }
 
     /// <summary>
-    /// Marks an attendance session as completed.
+    /// 將指定點名場次標記為已完成。
     /// </summary>
     [Authorize(Roles = $"{RoleNames.Teacher},{RoleNames.Administrator}")]
     [HttpPost("sessions/{sessionId:guid}/complete")]

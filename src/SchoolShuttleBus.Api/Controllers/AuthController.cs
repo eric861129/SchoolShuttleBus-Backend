@@ -6,14 +6,14 @@ using SchoolShuttleBus.Contracts.Auth;
 namespace SchoolShuttleBus.Api.Controllers;
 
 /// <summary>
-/// Authentication endpoints for demo accounts and JWT session management.
+/// 提供示範帳號登入、JWT 權杖管理與目前使用者資訊查詢的驗證相關端點。
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public sealed class AuthController(IAuthService authService, ICurrentUserAccessor currentUserAccessor) : ControllerBase
 {
     /// <summary>
-    /// Exchanges an account/password pair for an access token and refresh token.
+    /// 使用帳號與密碼換取 access token 與 refresh token。
     /// </summary>
     [AllowAnonymous]
     [HttpPost("login")]
@@ -24,7 +24,7 @@ public sealed class AuthController(IAuthService authService, ICurrentUserAccesso
     }
 
     /// <summary>
-    /// Rotates a refresh token and returns a fresh token envelope.
+    /// 使用 refresh token 換發新的登入權杖組。
     /// </summary>
     [AllowAnonymous]
     [HttpPost("refresh")]
@@ -35,7 +35,7 @@ public sealed class AuthController(IAuthService authService, ICurrentUserAccesso
     }
 
     /// <summary>
-    /// Revokes all active refresh tokens for the current user.
+    /// 註銷目前使用者所有仍有效的 refresh token。
     /// </summary>
     [Authorize]
     [HttpPost("logout")]
@@ -51,7 +51,7 @@ public sealed class AuthController(IAuthService authService, ICurrentUserAccesso
     }
 
     /// <summary>
-    /// Returns the authenticated user's basic identity and role list.
+    /// 取得目前登入使用者的基本身分資訊與角色列表。
     /// </summary>
     [Authorize]
     [HttpGet("me")]
@@ -67,7 +67,7 @@ public sealed class AuthController(IAuthService authService, ICurrentUserAccesso
     }
 
     /// <summary>
-    /// Returns the authenticated user's frontend bootstrap context, including accessible students and staff profile metadata.
+    /// 回傳前端啟動所需的使用者上下文資料，包含可存取學生與教職員設定資訊。
     /// </summary>
     [Authorize]
     [HttpGet("context")]

@@ -8,7 +8,7 @@ using SchoolShuttleBus.Domain.Shared;
 namespace SchoolShuttleBus.Api.Controllers;
 
 /// <summary>
-/// Notification management endpoints, including manual reminder runs and history lookup.
+/// 提供通知管理相關端點，包含手動執行提醒與查詢通知歷程。
 /// </summary>
 [ApiController]
 [Authorize]
@@ -18,7 +18,7 @@ public sealed class NotificationsController(
     ICurrentUserAccessor currentUserAccessor) : ControllerBase
 {
     /// <summary>
-    /// Manually runs the reminder job regardless of the background schedule.
+    /// 不受背景排程限制，手動立即執行提醒作業。
     /// </summary>
     [Authorize(Roles = RoleNames.Administrator)]
     [HttpPost("reminders/run")]
@@ -29,7 +29,7 @@ public sealed class NotificationsController(
     }
 
     /// <summary>
-    /// Returns the most recent email delivery history entries.
+    /// 取得最近的通知寄送歷程紀錄。
     /// </summary>
     [Authorize(Roles = RoleNames.Administrator)]
     [HttpGet("history")]

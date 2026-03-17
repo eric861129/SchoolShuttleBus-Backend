@@ -7,8 +7,8 @@ using SchoolShuttleBus.Infrastructure.Auth;
 namespace SchoolShuttleBus.Infrastructure.Persistence;
 
 /// <summary>
-/// Seeds a deterministic demo dataset so the API can be exercised from Swagger,
-/// integration tests, and interview walkthroughs without any manual setup.
+/// 建立可重現的示範資料，讓 API 能直接用於 Swagger 展示、
+/// 整合測試與面試 Demo，而不需要額外手動準備資料。
 /// </summary>
 public sealed class SeedDataService(
     SchoolShuttleBusDbContext dbContext,

@@ -6,7 +6,7 @@ using SchoolShuttleBus.Contracts.Registrations;
 namespace SchoolShuttleBus.Api.Controllers;
 
 /// <summary>
-/// Weekly shuttle registration endpoints for parents, students, and administrators.
+/// 提供家長、學生與管理者操作的每週校車搭乘登記相關端點。
 /// </summary>
 [ApiController]
 [Authorize]
@@ -14,7 +14,7 @@ namespace SchoolShuttleBus.Api.Controllers;
 public sealed class RegistrationsController(IRegistrationService registrationService) : ControllerBase
 {
     /// <summary>
-    /// Returns a student's registration grid for the requested week.
+    /// 取得指定學生於目標週次的搭乘登記表格資料。
     /// </summary>
     [HttpGet("weeks/{weekStart}")]
     public async Task<ActionResult<WeeklyRegistrationResponse>> GetWeekAsync(DateOnly weekStart, [FromQuery] Guid studentId, CancellationToken cancellationToken)
@@ -24,7 +24,7 @@ public sealed class RegistrationsController(IRegistrationService registrationSer
     }
 
     /// <summary>
-    /// Replaces a student's weekly registration selections.
+    /// 以新資料覆蓋指定學生當週的搭乘登記設定。
     /// </summary>
     [HttpPut("weeks/{weekStart}")]
     public async Task<ActionResult<WeeklyRegistrationResponse>> UpdateWeekAsync(DateOnly weekStart, [FromBody] UpdateWeeklyRegistrationRequest request, CancellationToken cancellationToken)
@@ -35,7 +35,7 @@ public sealed class RegistrationsController(IRegistrationService registrationSer
     }
 
     /// <summary>
-    /// Copies the previous week's registration pattern into the requested week.
+    /// 將前一週的登記模式複製到指定週次。
     /// </summary>
     [HttpPost("weeks/{weekStart}/copy-last-week")]
     public async Task<ActionResult<WeeklyRegistrationResponse>> CopyLastWeekAsync(DateOnly weekStart, [FromQuery] Guid studentId, CancellationToken cancellationToken)
@@ -45,7 +45,7 @@ public sealed class RegistrationsController(IRegistrationService registrationSer
     }
 
     /// <summary>
-    /// Returns the aggregate registration and attendance summary for a student.
+    /// 取得指定學生的搭乘登記與實際出席摘要。
     /// </summary>
     [HttpGet("students/{studentId}/summary")]
     public async Task<ActionResult<StudentRegistrationSummaryResponse>> GetSummaryAsync(Guid studentId, CancellationToken cancellationToken)

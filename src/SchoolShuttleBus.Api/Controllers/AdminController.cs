@@ -9,7 +9,7 @@ using SchoolShuttleBus.Domain.Shared;
 namespace SchoolShuttleBus.Api.Controllers;
 
 /// <summary>
-/// Administrative endpoints for dispatch overrides, broadcasts, and report exports.
+/// 提供管理端使用的調度覆寫、公告通知與報表匯出相關端點。
 /// </summary>
 [ApiController]
 [Authorize(Roles = RoleNames.Administrator)]
@@ -20,7 +20,7 @@ public sealed class AdminController(
     ICurrentUserAccessor currentUserAccessor) : ControllerBase
 {
     /// <summary>
-    /// Creates a route override for a specific student trip.
+    /// 針對指定學生的單次搭乘行程建立調度覆寫設定。
     /// </summary>
     [HttpPost("dispatches")]
     public async Task<ActionResult<DispatchOverrideResponse>> CreateDispatchAsync([FromBody] CreateDispatchOverrideRequest request, CancellationToken cancellationToken)
@@ -30,7 +30,7 @@ public sealed class AdminController(
     }
 
     /// <summary>
-    /// Sends a global email broadcast to the selected audience.
+    /// 對指定對象發送全站廣播通知。
     /// </summary>
     [HttpPost("broadcasts")]
     public async Task<ActionResult<BroadcastResponse>> CreateBroadcastAsync([FromBody] CreateBroadcastRequest request, CancellationToken cancellationToken)
@@ -45,7 +45,7 @@ public sealed class AdminController(
     }
 
     /// <summary>
-    /// Generates a report file and stores it for later download.
+    /// 產生報表檔案並保存，供後續下載使用。
     /// </summary>
     [HttpPost("reports")]
     public async Task<ActionResult<ReportExportResponse>> CreateReportAsync([FromBody] CreateReportRequest request, CancellationToken cancellationToken)
@@ -60,7 +60,7 @@ public sealed class AdminController(
     }
 
     /// <summary>
-    /// Returns students and staff profiles used to populate administrative SPA form options.
+    /// 取得管理端表單所需的學生與教職員下拉選單資料。
     /// </summary>
     [HttpGet("lookups")]
     public async Task<ActionResult<AdminLookupsResponse>> GetLookupsAsync(CancellationToken cancellationToken)
@@ -69,7 +69,7 @@ public sealed class AdminController(
     }
 
     /// <summary>
-    /// Downloads the binary content of a previously generated report.
+    /// 下載先前已產生的報表檔案內容。
     /// </summary>
     [HttpGet("reports/{reportId:guid}")]
     public async Task<IActionResult> DownloadReportAsync(Guid reportId, CancellationToken cancellationToken)

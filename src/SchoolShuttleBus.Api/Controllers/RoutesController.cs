@@ -7,7 +7,7 @@ using SchoolShuttleBus.Domain.Shared;
 namespace SchoolShuttleBus.Api.Controllers;
 
 /// <summary>
-/// Route, stop, and assignment management endpoints.
+/// 提供路線、停靠站與教師指派管理的相關端點。
 /// </summary>
 [ApiController]
 [Authorize]
@@ -15,14 +15,14 @@ namespace SchoolShuttleBus.Api.Controllers;
 public sealed class RoutesController(IRouteService routeService) : ControllerBase
 {
     /// <summary>
-    /// Returns routes visible to the current user.
+    /// 取得目前使用者可查看的路線資料。
     /// </summary>
     [HttpGet]
     public async Task<ActionResult<IReadOnlyCollection<RouteResponse>>> GetRoutesAsync(CancellationToken cancellationToken)
         => Ok(await routeService.GetRoutesAsync(cancellationToken));
 
     /// <summary>
-    /// Creates a new route definition.
+    /// 建立一筆新的路線定義。
     /// </summary>
     [Authorize(Roles = RoleNames.Administrator)]
     [HttpPost]
@@ -33,7 +33,7 @@ public sealed class RoutesController(IRouteService routeService) : ControllerBas
     }
 
     /// <summary>
-    /// Updates route metadata without replacing stops or assignments.
+    /// 更新路線基本資料，不直接覆蓋停靠站與指派資訊。
     /// </summary>
     [Authorize(Roles = RoleNames.Administrator)]
     [HttpPatch("{routeId:guid}")]
@@ -44,7 +44,7 @@ public sealed class RoutesController(IRouteService routeService) : ControllerBas
     }
 
     /// <summary>
-    /// Replaces the stop list for a route.
+    /// 以新清單覆蓋指定路線的停靠站資料。
     /// </summary>
     [Authorize(Roles = RoleNames.Administrator)]
     [HttpPost("{routeId:guid}/stops")]
@@ -55,7 +55,7 @@ public sealed class RoutesController(IRouteService routeService) : ControllerBas
     }
 
     /// <summary>
-    /// Assigns a teacher profile to a route.
+    /// 將指定教師指派到特定路線。
     /// </summary>
     [Authorize(Roles = RoleNames.Administrator)]
     [HttpPost("assignments/{routeId:guid}")]

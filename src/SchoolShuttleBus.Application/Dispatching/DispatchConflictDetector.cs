@@ -3,8 +3,8 @@ using SchoolShuttleBus.Contracts.Dispatching;
 namespace SchoolShuttleBus.Application.Dispatching;
 
 /// <summary>
-/// Detects whether an administrator is trying to add a duplicate route override
-/// for the same student, date, and trip direction.
+/// 判斷管理者是否針對同一位學生、同一天與同一搭乘方向
+/// 重複建立了衝突的路線覆寫設定。
 /// </summary>
 public sealed class DispatchConflictDetector
 {
