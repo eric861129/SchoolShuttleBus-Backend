@@ -8,6 +8,7 @@
 2. `business-flows.md`
 3. `technical-deep-dive.md`
 4. `presentation-script.md`
+5. `development-workflow.md`
 
 ## 各文件用途
 
@@ -19,12 +20,15 @@
   補足架構、驗證、資料模型、背景服務與測試等工程細節。
 - `presentation-script.md`
   直接提供 5 到 10 分鐘簡報或影片解說腳本素材。
+- `development-workflow.md`
+  說明整體 AI 協作式開發流程，適合生成開發方法論、工程流程或作品集補充說明。
 
 ## 使用建議
 
 - 如果要做「面試簡報」，優先使用 `project-overview.md` 與 `presentation-script.md`
 - 如果要做「產品流程型影片」，再加上 `business-flows.md`
 - 如果要做「技術導向簡報」，把 `technical-deep-dive.md` 一起餵進去
+- 如果要講「我是怎麼和 AI 協作完成專案」，再加上 `development-workflow.md`
 
 ## Demo 固定資料
 

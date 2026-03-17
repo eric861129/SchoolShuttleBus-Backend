@@ -114,3 +114,4 @@ dotnet test SchoolShuttleBus.sln
 - [ERD / Data Dictionary](docs/erd-data-dictionary.md)
 - [Demo 指南](docs/demo-guide.md)
 - [NotebookLM 文件包](docs/notebooklm/README.md)
+- [開發流程文件](docs/notebooklm/development-workflow.md)
