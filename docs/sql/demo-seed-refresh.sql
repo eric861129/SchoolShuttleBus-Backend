@@ -295,6 +295,12 @@ BEGIN TRY
     DELETE FROM [AspNetUserRoles]
     WHERE [UserId] IN (SELECT [Id] FROM @DemoUserIds);
 
+    UPDATE [Students]
+    SET
+        [DefaultRouteId] = NULL,
+        [UpdatedAtUtc] = SYSDATETIMEOFFSET()
+    WHERE [DefaultRouteId] IN (SELECT [Id] FROM @ExistingDemoRouteIds);
+
     DELETE FROM [Students]
     WHERE [StudentNumber] IN (N'S10001', N'S10002', N'S10003', N'S10004', N'S10005')
        OR [Id] IN (@StudentProfileId, @StudentTwoId, @StudentThreeId, @StudentFourId, @StudentFiveId);
