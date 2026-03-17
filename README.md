@@ -28,6 +28,7 @@ docs/
   api-overview.md
   erd-data-dictionary.md
   demo-guide.md
+  project-documentation.md
   notebooklm/
 ```
 
@@ -110,6 +111,7 @@ dotnet test SchoolShuttleBus.sln
 ## 文件索引
 
 - [架構說明](docs/architecture.md)
+- [完整專案文件](docs/project-documentation.md)
 - [API 概覽](docs/api-overview.md)
 - [ERD / Data Dictionary](docs/erd-data-dictionary.md)
 - [Demo 指南](docs/demo-guide.md)
