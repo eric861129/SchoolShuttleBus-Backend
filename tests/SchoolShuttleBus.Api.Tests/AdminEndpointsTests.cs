@@ -73,9 +73,28 @@ public sealed class AdminEndpointsTests : IClassFixture<SchoolShuttleBusApiFacto
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var payload = await response.Content.ReadFromJsonAsync<AdminLookupsEnvelope>();
         payload.Should().NotBeNull();
-        payload!.Students.Should().ContainSingle(student => student.StudentId == DemoSeedConstants.StudentId && student.StudentNumber == "S10001");
+        payload!.Students.Count.Should().BeGreaterOrEqualTo(5);
+        payload.StaffProfiles.Count.Should().BeGreaterOrEqualTo(3);
+        payload.Students.Should().ContainSingle(student => student.StudentId == DemoSeedConstants.StudentId && student.StudentNumber == "S10001");
         payload.StaffProfiles.Should().Contain(profile => profile.StaffProfileId == DemoSeedConstants.AdminStaffProfileId && profile.EmployeeNumber == "E0001");
         payload.StaffProfiles.Should().Contain(profile => profile.StaffProfileId == DemoSeedConstants.StaffProfileId && profile.EmployeeNumber == "T0001");
+    }
+
+    [Fact]
+    public async Task NotificationHistory_ShouldContainSeededDeliveries()
+    {
+        using var client = _factory.CreateClient();
+        var token = await client.LoginAndGetAccessTokenAsync("E0001", "P@ssw0rd!");
+        using var request = new HttpRequestMessage(HttpMethod.Get, "/api/notifications/history");
+        request.Headers.Authorization = new("Bearer", token);
+
+        var response = await client.SendAsync(request);
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var payload = await response.Content.ReadFromJsonAsync<IReadOnlyList<NotificationDeliveryEnvelope>>();
+        payload.Should().NotBeNull();
+        payload!.Should().NotBeEmpty();
+        payload.Should().Contain(item => item.Status == "Sent");
     }
 
     [Fact]
@@ -94,6 +113,13 @@ public sealed class AdminEndpointsTests : IClassFixture<SchoolShuttleBusApiFacto
     private sealed record ReportEnvelope(Guid ReportExportId, string FileName, string ContentType, ReportType ReportType, ExportFormat ExportFormat, DateTimeOffset CreatedAtUtc);
 
     private sealed record ReminderEnvelope(Guid NotificationJobId, int DeliveryCount);
+
+    private sealed record NotificationDeliveryEnvelope(
+        Guid NotificationDeliveryId,
+        string RecipientEmail,
+        string Status,
+        DateTimeOffset? SentAtUtc,
+        string? ErrorMessage);
 
     private sealed record AdminLookupsEnvelope(
         IReadOnlyList<AdminStudentLookupEnvelope> Students,
