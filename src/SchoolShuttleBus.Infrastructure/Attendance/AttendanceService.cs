@@ -26,14 +26,24 @@ internal sealed class AttendanceService(
             return Result<AttendanceSessionResponse>.Fail("Current user is unavailable.");
         }
 
-        var routeAllowed = await dbContext.Routes.AnyAsync(route =>
-            route.Id == request.RouteId &&
-            (currentUserAccessor.IsInRole(RoleNames.Administrator) ||
-             route.Assignments.Any(assignment => assignment.StaffProfile.UserId == userId)), cancellationToken);
+        var route = await dbContext.Routes
+            .Where(entity => entity.Id == request.RouteId)
+            .Select(entity => new
+            {
+                entity.Direction,
+                IsAllowed = currentUserAccessor.IsInRole(RoleNames.Administrator) ||
+                            entity.Assignments.Any(assignment => assignment.StaffProfile.UserId == userId)
+            })
+            .SingleOrDefaultAsync(cancellationToken);
 
-        if (!routeAllowed)
+        if (route is null || !route.IsAllowed)
         {
             return Result<AttendanceSessionResponse>.Fail("Route not found or access denied.");
+        }
+
+        if (route.Direction != request.Direction)
+        {
+            return Result<AttendanceSessionResponse>.Fail("Selected route does not match the requested trip direction.");
         }
 
         var existingSession = await BuildSessionQuery()
@@ -61,6 +71,11 @@ internal sealed class AttendanceService(
                                    registration.Direction == request.Direction &&
                                    registration.IsRegistered)
             .ToListAsync(cancellationToken);
+
+        if (registrations.Count == 0)
+        {
+            return Result<AttendanceSessionResponse>.Fail("No registered students found for the selected route, date, and direction.");
+        }
 
         var session = new AttendanceSession
         {

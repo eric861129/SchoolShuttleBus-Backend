@@ -53,6 +53,44 @@ public sealed class RouteAndAttendanceEndpointsTests : IClassFixture<SchoolShutt
         session!.Records.Should().NotBeEmpty();
     }
 
+    [Fact]
+    public async Task CreateAttendanceSession_ShouldRejectMismatchedRouteDirection()
+    {
+        using var client = _factory.CreateClient();
+        var token = await client.LoginAndGetAccessTokenAsync("T0001", "P@ssw0rd!");
+        using var request = new HttpRequestMessage(HttpMethod.Post, "/api/attendance/sessions");
+        request.Headers.Authorization = new("Bearer", token);
+        request.Content = JsonContent.Create(new
+        {
+            routeId = DemoSeedConstants.MorningRouteId,
+            date = "2026-03-16",
+            direction = TripDirection.Homebound
+        });
+
+        var response = await client.SendAsync(request);
+
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task CreateAttendanceSession_ShouldRejectWhenNoRegistrationsExist()
+    {
+        using var client = _factory.CreateClient();
+        var token = await client.LoginAndGetAccessTokenAsync("T0001", "P@ssw0rd!");
+        using var request = new HttpRequestMessage(HttpMethod.Post, "/api/attendance/sessions");
+        request.Headers.Authorization = new("Bearer", token);
+        request.Content = JsonContent.Create(new
+        {
+            routeId = DemoSeedConstants.MorningRouteId,
+            date = "2026-03-30",
+            direction = TripDirection.ToSchool
+        });
+
+        var response = await client.SendAsync(request);
+
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
     private sealed record RouteEnvelope(Guid RouteId, string RouteName);
 
     private sealed record AttendanceRecordEnvelope(Guid AttendanceRecordId, Guid StudentId, string StudentName, AttendanceStatus Status, string EmergencyPhoneSnapshot);
