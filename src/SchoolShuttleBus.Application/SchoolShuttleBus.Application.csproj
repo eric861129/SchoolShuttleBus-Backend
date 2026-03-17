@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SchoolShuttleBus.Contracts\SchoolShuttleBus.Contracts.csproj" />
+    <ProjectReference Include="..\SchoolShuttleBus.Domain\SchoolShuttleBus.Domain.csproj" />
+  </ItemGroup>
+</Project>
