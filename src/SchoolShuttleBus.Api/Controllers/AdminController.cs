@@ -60,6 +60,15 @@ public sealed class AdminController(
     }
 
     /// <summary>
+    /// Returns students and staff profiles used to populate administrative SPA form options.
+    /// </summary>
+    [HttpGet("lookups")]
+    public async Task<ActionResult<AdminLookupsResponse>> GetLookupsAsync(CancellationToken cancellationToken)
+    {
+        return Ok(await adminService.GetLookupsAsync(cancellationToken));
+    }
+
+    /// <summary>
     /// Downloads the binary content of a previously generated report.
     /// </summary>
     [HttpGet("reports/{reportId:guid}")]

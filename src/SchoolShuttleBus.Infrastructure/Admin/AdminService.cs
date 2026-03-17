@@ -5,6 +5,7 @@ using SchoolShuttleBus.Application.Admin;
 using SchoolShuttleBus.Application.Common;
 using SchoolShuttleBus.Application.Dispatching;
 using SchoolShuttleBus.Contracts.Admin;
+using SchoolShuttleBus.Contracts.Auth;
 using SchoolShuttleBus.Contracts.Dispatching;
 using SchoolShuttleBus.Domain.Entities;
 using SchoolShuttleBus.Domain.Shared;
@@ -86,6 +87,34 @@ internal sealed class AdminService(
         }
 
         return Result<(byte[] Content, string ContentType, string FileName)>.Ok((report.Content, report.ContentType, report.FileName));
+    }
+
+    public async Task<AdminLookupsResponse> GetLookupsAsync(CancellationToken cancellationToken)
+    {
+        var students = await dbContext.Students
+            .AsNoTracking()
+            .OrderBy(student => student.StudentNumber)
+            .ThenBy(student => student.FullName)
+            .Select(student => new AdminStudentLookupResponse(
+                student.Id,
+                student.StudentNumber,
+                student.FullName,
+                student.Stage,
+                student.GradeLabel))
+            .ToArrayAsync(cancellationToken);
+
+        var staffProfiles = await dbContext.StaffProfiles
+            .AsNoTracking()
+            .OrderBy(profile => profile.EmployeeNumber)
+            .ThenBy(profile => profile.FullName)
+            .Select(profile => new StaffProfileSummaryResponse(
+                profile.Id,
+                profile.EmployeeNumber,
+                profile.FullName,
+                profile.CanManageAllRoutes))
+            .ToArrayAsync(cancellationToken);
+
+        return new AdminLookupsResponse(students, staffProfiles);
     }
 
     private async Task<string> BuildRegistrationCsvAsync(DateOnly? startDate, DateOnly? endDate, CancellationToken cancellationToken)
