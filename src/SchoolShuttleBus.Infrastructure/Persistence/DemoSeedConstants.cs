@@ -9,6 +9,7 @@ public static class DemoSeedConstants
 
     public static readonly Guid StudentId = Guid.Parse("aaaaaaaa-1111-1111-1111-111111111111");
     public static readonly Guid GuardianId = Guid.Parse("bbbbbbbb-1111-1111-1111-111111111111");
+    public static readonly Guid AdminStaffProfileId = Guid.Parse("bbbbbbbb-2222-2222-2222-222222222222");
     public static readonly Guid StaffProfileId = Guid.Parse("cccccccc-1111-1111-1111-111111111111");
     public static readonly Guid MorningRouteId = Guid.Parse("dddddddd-1111-1111-1111-111111111111");
     public static readonly Guid DismissalRouteId = Guid.Parse("eeeeeeee-1111-1111-1111-111111111111");

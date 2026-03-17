@@ -35,15 +35,15 @@ sqlcmd -S "tcp:$server,1433" -d $db -U $user -P $pwd -i "docs\sql\azure-demo-dat
 ```
 
 Suggested login accounts for Swagger:
-- `ops.admin@demo.local`
-- `olivia.lin.teacher@demo.local`
-- `grace.chen.parent@demo.local`
-- `ethan.chen.student@demo.local`
+- administrator: `E0001`
+- teacher: `T0001`
+- parent: `0910-200-001`
+- student: `S20001`
 
 Post-import checks:
 - `GET /swagger/index.html`
 - `POST /api/auth/login`
 - `GET /api/auth/me`
-- admin endpoints with the admin token
+- admin endpoints with the administrator token
 - attendance endpoints with a teacher token
 - registration endpoints with a parent or student token

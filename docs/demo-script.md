@@ -1,40 +1,43 @@
-# 面試 Demo 劇本
+# Demo Script
 
-## 1. 開場
+## 1. Open Swagger
 
-- 開 Swagger
-- 說明這是 backend-first 架構
-- 展示 solution 分層與 docs 結構
+- Open `/swagger/index.html`
+- Explain this is a backend-first shuttle bus management API
+- Mention CI/CD and Azure deployment are already in place
 
-## 2. Auth
+## 2. Authentication
 
-- 用 `admin@demo.local / P@ssw0rd!` 登入
-- 在 Swagger Authorize 貼上 JWT
-- 呼叫 `/api/auth/me`
+- Log in with `E0001 / P@ssw0rd!`
+- Paste the returned access token into Swagger `Authorize`
+- Call `GET /api/auth/me`
 
-## 3. 家長登記流程
+## 3. Parent Flow
 
-- 用 `parent@demo.local` 登入
-- 查 `GET /api/registrations/weeks/2026-03-16`
-- 呼叫 `copy-last-week` 複製到下週
-- 查 summary
+- Log in with `0910-200-001 / P@ssw0rd!`
+- Call registration endpoints
+- Show weekly registration and summary data
 
-## 4. 老師點名流程
+## 4. Teacher Flow
 
-- 用 `teacher@demo.local` 登入
-- 呼叫 `GET /api/routes`
-- 建立 `POST /api/attendance/sessions`
-- 更新單筆 attendance record
-- 完成 session
+- Log in with `T0001 / P@ssw0rd!`
+- Call `GET /api/routes`
+- Create or review attendance sessions
+- Update attendance records
 
-## 5. 管理員流程
+## 5. Student Flow
 
-- 建立 dispatch override
-- 手動觸發 reminders
-- 發送 broadcast
-- 產生 report 並下載 CSV
+- Log in with `S20001 / P@ssw0rd!`
+- Show student-facing registration queries
 
-## 6. 工程亮點收尾
+## 6. Admin Flow
 
-- 展示 migration、tests、GitHub Actions workflow
-- 展示 Azure SQL / App Service / Mailjet 設定說明
+- Use dispatch override endpoints
+- Show broadcast / reminder related data
+- Export reports
+
+## 7. Technical Wrap-Up
+
+- Explain JWT-based auth
+- Explain EF Core migrations and seeded/demo SQL data
+- Explain Azure App Service + Azure SQL deployment

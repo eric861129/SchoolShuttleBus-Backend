@@ -30,10 +30,10 @@ public sealed class SeedDataService(
             return;
         }
 
-        var admin = await CreateUserAsync(DemoSeedConstants.AdminUserId, "admin@demo.local", RoleNames.Administrator);
-        var teacher = await CreateUserAsync(DemoSeedConstants.TeacherUserId, "teacher@demo.local", RoleNames.Teacher);
-        var parent = await CreateUserAsync(DemoSeedConstants.ParentUserId, "parent@demo.local", RoleNames.Parent);
-        var student = await CreateUserAsync(DemoSeedConstants.StudentUserId, "student@demo.local", RoleNames.Student);
+        var admin = await CreateUserAsync(DemoSeedConstants.AdminUserId, "E0001", "admin@demo.local", RoleNames.Administrator, "0900-000-001");
+        var teacher = await CreateUserAsync(DemoSeedConstants.TeacherUserId, "T0001", "teacher@demo.local", RoleNames.Teacher, "0900-000-002");
+        var parent = await CreateUserAsync(DemoSeedConstants.ParentUserId, "0900-000-003", "parent@demo.local", RoleNames.Parent, "0900-000-003");
+        var student = await CreateUserAsync(DemoSeedConstants.StudentUserId, "S10001", "student@demo.local", RoleNames.Student, "0900-000-004");
 
         var routeToSchool = new Route
         {
@@ -84,11 +84,22 @@ public sealed class SeedDataService(
             ]
         };
 
+        var adminStaffProfile = new StaffProfile
+        {
+            Id = DemoSeedConstants.AdminStaffProfileId,
+            UserId = admin.Id,
+            EmployeeNumber = "E0001",
+            FullName = "系統管理員",
+            PhoneNumber = "0900-000-001",
+            CanManageAllRoutes = true
+        };
+
         var staffProfile = new StaffProfile
         {
             Id = DemoSeedConstants.StaffProfileId,
             UserId = teacher.Id,
-            FullName = "Demo Teacher",
+            EmployeeNumber = "T0001",
+            FullName = "王老師",
             PhoneNumber = "0900-000-002",
             CanManageAllRoutes = false
         };
@@ -97,7 +108,7 @@ public sealed class SeedDataService(
         {
             Id = DemoSeedConstants.GuardianId,
             UserId = parent.Id,
-            FullName = "Demo Parent",
+            FullName = "陳家長",
             PhoneNumber = "0900-000-003",
             Email = parent.Email ?? string.Empty
         };
@@ -107,9 +118,9 @@ public sealed class SeedDataService(
             Id = DemoSeedConstants.StudentId,
             UserId = student.Id,
             StudentNumber = "S10001",
-            FullName = "Demo Student",
+            FullName = "陳小明",
             Stage = StudentStage.JuniorHigh,
-            GradeLabel = "Grade 8",
+            GradeLabel = "八年級",
             DefaultRoute = routeToSchool
         };
 
@@ -165,7 +176,7 @@ public sealed class SeedDataService(
         _ = admin;
 
         dbContext.Routes.AddRange(routeToSchool, routeHomebound, doorToDoorRoute);
-        dbContext.StaffProfiles.Add(staffProfile);
+        dbContext.StaffProfiles.AddRange(adminStaffProfile, staffProfile);
         dbContext.Guardians.Add(guardian);
         dbContext.Students.Add(studentProfile);
         dbContext.StudentGuardianLinks.Add(link);
@@ -176,14 +187,16 @@ public sealed class SeedDataService(
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    private async Task<AppUser> CreateUserAsync(Guid userId, string email, string roleName)
+    private async Task<AppUser> CreateUserAsync(Guid userId, string userName, string email, string roleName, string phoneNumber)
     {
         var user = new AppUser
         {
             Id = userId,
-            UserName = email,
+            UserName = userName,
             Email = email,
-            EmailConfirmed = true
+            EmailConfirmed = true,
+            PhoneNumber = phoneNumber,
+            PhoneNumberConfirmed = true
         };
 
         var createResult = await userManager.CreateAsync(user, "P@ssw0rd!");

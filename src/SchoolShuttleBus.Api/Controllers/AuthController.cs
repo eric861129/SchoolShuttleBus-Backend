@@ -13,7 +13,7 @@ namespace SchoolShuttleBus.Api.Controllers;
 public sealed class AuthController(IAuthService authService, ICurrentUserAccessor currentUserAccessor) : ControllerBase
 {
     /// <summary>
-    /// Exchanges an email/password pair for an access token and refresh token.
+    /// Exchanges an account/password pair for an access token and refresh token.
     /// </summary>
     [AllowAnonymous]
     [HttpPost("login")]

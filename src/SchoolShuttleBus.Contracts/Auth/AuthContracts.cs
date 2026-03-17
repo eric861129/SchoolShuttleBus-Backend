@@ -1,6 +1,6 @@
 namespace SchoolShuttleBus.Contracts.Auth;
 
-public sealed record LoginRequest(string Email, string Password);
+public sealed record LoginRequest(string Account, string Password);
 
 public sealed record RefreshTokenRequest(string RefreshToken);
 

@@ -4,11 +4,11 @@ namespace SchoolShuttleBus.Api.Tests;
 
 internal static class TestAuthExtensions
 {
-    public static async Task<string> LoginAndGetAccessTokenAsync(this HttpClient client, string email, string password)
+    public static async Task<string> LoginAndGetAccessTokenAsync(this HttpClient client, string account, string password)
     {
         var response = await client.PostAsJsonAsync("/api/auth/login", new
         {
-            email,
+            account,
             password
         });
 

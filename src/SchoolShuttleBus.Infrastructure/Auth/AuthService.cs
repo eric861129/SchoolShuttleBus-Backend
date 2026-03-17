@@ -18,10 +18,11 @@ public sealed class AuthService(
 
     public async Task<Result<TokenResponse>> LoginAsync(LoginRequest request, CancellationToken cancellationToken)
     {
-        var user = await userManager.FindByEmailAsync(request.Email);
+        var account = request.Account.Trim();
+        var user = await ResolveUserByAccountAsync(account, cancellationToken);
         if (user is null || !await userManager.CheckPasswordAsync(user, request.Password))
         {
-            return Result<TokenResponse>.Fail("Invalid email or password.");
+            return Result<TokenResponse>.Fail("Invalid account or password.");
         }
 
         return Result<TokenResponse>.Ok(await CreateTokenEnvelopeAsync(user, cancellationToken));
@@ -68,6 +69,48 @@ public sealed class AuthService(
 
         var roles = await userManager.GetRolesAsync(user);
         return Result<CurrentUserResponse>.Ok(new CurrentUserResponse(user.Id, user.Email ?? string.Empty, roles.ToArray()));
+    }
+
+    private async Task<AppUser?> ResolveUserByAccountAsync(string account, CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(account))
+        {
+            return null;
+        }
+
+        var normalizedAccount = account.Trim().ToUpperInvariant();
+
+        var studentUserId = await dbContext.Students
+            .Where(student => student.StudentNumber.ToUpper() == normalizedAccount)
+            .Select(student => (Guid?)student.UserId)
+            .SingleOrDefaultAsync(cancellationToken);
+
+        if (studentUserId is { } studentId)
+        {
+            return await userManager.FindByIdAsync(studentId.ToString());
+        }
+
+        var staffUserId = await dbContext.StaffProfiles
+            .Where(profile => profile.EmployeeNumber.ToUpper() == normalizedAccount)
+            .Select(profile => (Guid?)profile.UserId)
+            .SingleOrDefaultAsync(cancellationToken);
+
+        if (staffUserId is { } staffId)
+        {
+            return await userManager.FindByIdAsync(staffId.ToString());
+        }
+
+        var guardianUserId = await dbContext.Guardians
+            .Where(guardian => guardian.PhoneNumber == account)
+            .Select(guardian => (Guid?)guardian.UserId)
+            .SingleOrDefaultAsync(cancellationToken);
+
+        if (guardianUserId is { } guardianId)
+        {
+            return await userManager.FindByIdAsync(guardianId.ToString());
+        }
+
+        return await userManager.FindByNameAsync(account);
     }
 
     private async Task<TokenResponse> CreateTokenEnvelopeAsync(AppUser user, CancellationToken cancellationToken)

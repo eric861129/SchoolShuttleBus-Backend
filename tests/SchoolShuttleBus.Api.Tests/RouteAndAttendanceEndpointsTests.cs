@@ -19,7 +19,7 @@ public sealed class RouteAndAttendanceEndpointsTests : IClassFixture<SchoolShutt
     public async Task GetRoutes_ShouldReturnAssignedRoute_ForTeacher()
     {
         using var client = _factory.CreateClient();
-        var token = await client.LoginAndGetAccessTokenAsync("teacher@demo.local", "P@ssw0rd!");
+        var token = await client.LoginAndGetAccessTokenAsync("T0001", "P@ssw0rd!");
         using var request = new HttpRequestMessage(HttpMethod.Get, "/api/routes");
         request.Headers.Authorization = new("Bearer", token);
 
@@ -35,7 +35,7 @@ public sealed class RouteAndAttendanceEndpointsTests : IClassFixture<SchoolShutt
     public async Task CreateAttendanceSession_ShouldCreateManifestForRouteRegistrations()
     {
         using var client = _factory.CreateClient();
-        var token = await client.LoginAndGetAccessTokenAsync("teacher@demo.local", "P@ssw0rd!");
+        var token = await client.LoginAndGetAccessTokenAsync("T0001", "P@ssw0rd!");
         using var request = new HttpRequestMessage(HttpMethod.Post, "/api/attendance/sessions");
         request.Headers.Authorization = new("Bearer", token);
         request.Content = JsonContent.Create(new

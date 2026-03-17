@@ -18,7 +18,7 @@ public sealed class AdminEndpointsTests : IClassFixture<SchoolShuttleBusApiFacto
     public async Task CreateReport_ShouldGenerateDownloadableCsv()
     {
         using var client = _factory.CreateClient();
-        var token = await client.LoginAndGetAccessTokenAsync("admin@demo.local", "P@ssw0rd!");
+        var token = await client.LoginAndGetAccessTokenAsync("E0001", "P@ssw0rd!");
         using var createRequest = new HttpRequestMessage(HttpMethod.Post, "/api/admin/reports");
         createRequest.Headers.Authorization = new("Bearer", token);
         createRequest.Content = JsonContent.Create(new
@@ -47,7 +47,7 @@ public sealed class AdminEndpointsTests : IClassFixture<SchoolShuttleBusApiFacto
     public async Task RunReminders_ShouldCreateNotificationJob()
     {
         using var client = _factory.CreateClient();
-        var token = await client.LoginAndGetAccessTokenAsync("admin@demo.local", "P@ssw0rd!");
+        var token = await client.LoginAndGetAccessTokenAsync("E0001", "P@ssw0rd!");
         using var request = new HttpRequestMessage(HttpMethod.Post, "/api/notifications/reminders/run");
         request.Headers.Authorization = new("Bearer", token);
 

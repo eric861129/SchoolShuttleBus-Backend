@@ -93,19 +93,19 @@ BEGIN TRY
         FROM AspNetUsers
         WHERE UserName IN
         (
-            N'ops.admin@demo.local',
-            N'olivia.lin.teacher@demo.local',
-            N'brian.wu.teacher@demo.local',
-            N'grace.chen.parent@demo.local',
-            N'kevin.chen.parent@demo.local',
-            N'sophia.liu.parent@demo.local',
-            N'iris.wang.parent@demo.local',
-            N'nina.lin.parent@demo.local',
-            N'ethan.chen.student@demo.local',
-            N'emma.chen.student@demo.local',
-            N'leo.liu.student@demo.local',
-            N'mia.wang.student@demo.local',
-            N'noah.lin.student@demo.local'
+            N'E0001',
+            N'T0001',
+            N'T0002',
+            N'0910-200-001',
+            N'0910-200-002',
+            N'0910-200-003',
+            N'0910-200-004',
+            N'0910-200-005',
+            N'S20001',
+            N'S20002',
+            N'S20003',
+            N'S20004',
+            N'S20005'
         )
     )
     BEGIN
@@ -141,19 +141,19 @@ BEGIN TRY
         AccessFailedCount
     )
     VALUES
-    (@AdminUserId, N'ops.admin@demo.local', N'OPS.ADMIN@DEMO.LOCAL', N'ops.admin@demo.local', N'OPS.ADMIN@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0900-100-001', 1, 0, NULL, 1, 0),
-    (@Teacher1UserId, N'olivia.lin.teacher@demo.local', N'OLIVIA.LIN.TEACHER@DEMO.LOCAL', N'olivia.lin.teacher@demo.local', N'OLIVIA.LIN.TEACHER@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0900-100-002', 1, 0, NULL, 1, 0),
-    (@Teacher2UserId, N'brian.wu.teacher@demo.local', N'BRIAN.WU.TEACHER@DEMO.LOCAL', N'brian.wu.teacher@demo.local', N'BRIAN.WU.TEACHER@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0900-100-003', 1, 0, NULL, 1, 0),
-    (@Parent1UserId, N'grace.chen.parent@demo.local', N'GRACE.CHEN.PARENT@DEMO.LOCAL', N'grace.chen.parent@demo.local', N'GRACE.CHEN.PARENT@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0900-200-001', 1, 0, NULL, 1, 0),
-    (@Parent2UserId, N'kevin.chen.parent@demo.local', N'KEVIN.CHEN.PARENT@DEMO.LOCAL', N'kevin.chen.parent@demo.local', N'KEVIN.CHEN.PARENT@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0900-200-002', 1, 0, NULL, 1, 0),
-    (@Parent3UserId, N'sophia.liu.parent@demo.local', N'SOPHIA.LIU.PARENT@DEMO.LOCAL', N'sophia.liu.parent@demo.local', N'SOPHIA.LIU.PARENT@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0900-200-003', 1, 0, NULL, 1, 0),
-    (@Parent4UserId, N'iris.wang.parent@demo.local', N'IRIS.WANG.PARENT@DEMO.LOCAL', N'iris.wang.parent@demo.local', N'IRIS.WANG.PARENT@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0900-200-004', 1, 0, NULL, 1, 0),
-    (@Parent5UserId, N'nina.lin.parent@demo.local', N'NINA.LIN.PARENT@DEMO.LOCAL', N'nina.lin.parent@demo.local', N'NINA.LIN.PARENT@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0900-200-005', 1, 0, NULL, 1, 0),
-    (@Student1UserId, N'ethan.chen.student@demo.local', N'ETHAN.CHEN.STUDENT@DEMO.LOCAL', N'ethan.chen.student@demo.local', N'ETHAN.CHEN.STUDENT@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0900-300-001', 1, 0, NULL, 1, 0),
-    (@Student2UserId, N'emma.chen.student@demo.local', N'EMMA.CHEN.STUDENT@DEMO.LOCAL', N'emma.chen.student@demo.local', N'EMMA.CHEN.STUDENT@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0900-300-002', 1, 0, NULL, 1, 0),
-    (@Student3UserId, N'leo.liu.student@demo.local', N'LEO.LIU.STUDENT@DEMO.LOCAL', N'leo.liu.student@demo.local', N'LEO.LIU.STUDENT@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0900-300-003', 1, 0, NULL, 1, 0),
-    (@Student4UserId, N'mia.wang.student@demo.local', N'MIA.WANG.STUDENT@DEMO.LOCAL', N'mia.wang.student@demo.local', N'MIA.WANG.STUDENT@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0900-300-004', 1, 0, NULL, 1, 0),
-    (@Student5UserId, N'noah.lin.student@demo.local', N'NOAH.LIN.STUDENT@DEMO.LOCAL', N'noah.lin.student@demo.local', N'NOAH.LIN.STUDENT@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0900-300-005', 1, 0, NULL, 1, 0);
+    (@AdminUserId, N'E0001', N'E0001', N'guanliyuan@demo.local', N'GUANLIYUAN@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0910-100-001', 1, 0, NULL, 1, 0),
+    (@Teacher1UserId, N'T0001', N'T0001', N'lin.laoshi@demo.local', N'LIN.LAOSHI@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0910-100-002', 1, 0, NULL, 1, 0),
+    (@Teacher2UserId, N'T0002', N'T0002', N'wu.laoshi@demo.local', N'WU.LAOSHI@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0910-100-003', 1, 0, NULL, 1, 0),
+    (@Parent1UserId, N'0910-200-001', N'0910-200-001', N'chen.jiazhang1@demo.local', N'CHEN.JIAZHANG1@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0910-200-001', 1, 0, NULL, 1, 0),
+    (@Parent2UserId, N'0910-200-002', N'0910-200-002', N'chen.jiazhang2@demo.local', N'CHEN.JIAZHANG2@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0910-200-002', 1, 0, NULL, 1, 0),
+    (@Parent3UserId, N'0910-200-003', N'0910-200-003', N'liu.jiazhang@demo.local', N'LIU.JIAZHANG@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0910-200-003', 1, 0, NULL, 1, 0),
+    (@Parent4UserId, N'0910-200-004', N'0910-200-004', N'wang.jiazhang@demo.local', N'WANG.JIAZHANG@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0910-200-004', 1, 0, NULL, 1, 0),
+    (@Parent5UserId, N'0910-200-005', N'0910-200-005', N'lin.jiazhang@demo.local', N'LIN.JIAZHANG@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0910-200-005', 1, 0, NULL, 1, 0),
+    (@Student1UserId, N'S20001', N'S20001', N'xiaoming.chen@demo.local', N'XIAOMING.CHEN@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0910-300-001', 1, 0, NULL, 1, 0),
+    (@Student2UserId, N'S20002', N'S20002', N'xiaomei.chen@demo.local', N'XIAOMEI.CHEN@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0910-300-002', 1, 0, NULL, 1, 0),
+    (@Student3UserId, N'S20003', N'S20003', N'zihao.liu@demo.local', N'ZIHAO.LIU@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0910-300-003', 1, 0, NULL, 1, 0),
+    (@Student4UserId, N'S20004', N'S20004', N'yuting.wang@demo.local', N'YUTING.WANG@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0910-300-004', 1, 0, NULL, 1, 0),
+    (@Student5UserId, N'S20005', N'S20005', N'xiaoyu.lin@demo.local', N'XIAOYU.LIN@DEMO.LOCAL', 1, @SharedPasswordHash, CONVERT(nvarchar(36), NEWID()), CONVERT(nvarchar(36), NEWID()), N'0910-300-005', 1, 0, NULL, 1, 0);
 
     INSERT INTO AspNetUserRoles (UserId, RoleId)
     VALUES
@@ -171,49 +171,49 @@ BEGIN TRY
     (@Student4UserId, @RoleStudentId),
     (@Student5UserId, @RoleStudentId);
 
-    INSERT INTO StaffProfiles (Id, UserId, FullName, PhoneNumber, CanManageAllRoutes, CreatedAtUtc, UpdatedAtUtc)
+    INSERT INTO StaffProfiles (Id, UserId, EmployeeNumber, FullName, PhoneNumber, CanManageAllRoutes, CreatedAtUtc, UpdatedAtUtc)
     VALUES
-    (@AdminStaffProfileId, @AdminUserId, N'Demo Operations Admin', N'0900-100-001', 1, @UtcNow, NULL),
-    (@Teacher1StaffProfileId, @Teacher1UserId, N'Olivia Lin', N'0900-100-002', 1, @UtcNow, NULL),
-    (@Teacher2StaffProfileId, @Teacher2UserId, N'Brian Wu', N'0900-100-003', 0, @UtcNow, NULL);
+    (@AdminStaffProfileId, @AdminUserId, N'E0001', N'系統管理員', N'0910-100-001', 1, @UtcNow, NULL),
+    (@Teacher1StaffProfileId, @Teacher1UserId, N'T0001', N'林老師', N'0910-100-002', 1, @UtcNow, NULL),
+    (@Teacher2StaffProfileId, @Teacher2UserId, N'T0002', N'吳老師', N'0910-100-003', 0, @UtcNow, NULL);
 
     INSERT INTO Guardians (Id, UserId, FullName, PhoneNumber, Email, CreatedAtUtc, UpdatedAtUtc)
     VALUES
-    (@Guardian1Id, @Parent1UserId, N'Grace Chen', N'0900-200-001', N'grace.chen.parent@demo.local', @UtcNow, NULL),
-    (@Guardian2Id, @Parent2UserId, N'Kevin Chen', N'0900-200-002', N'kevin.chen.parent@demo.local', @UtcNow, NULL),
-    (@Guardian3Id, @Parent3UserId, N'Sophia Liu', N'0900-200-003', N'sophia.liu.parent@demo.local', @UtcNow, NULL),
-    (@Guardian4Id, @Parent4UserId, N'Iris Wang', N'0900-200-004', N'iris.wang.parent@demo.local', @UtcNow, NULL),
-    (@Guardian5Id, @Parent5UserId, N'Nina Lin', N'0900-200-005', N'nina.lin.parent@demo.local', @UtcNow, NULL);
+    (@Guardian1Id, @Parent1UserId, N'陳媽媽', N'0910-200-001', N'chen.jiazhang1@demo.local', @UtcNow, NULL),
+    (@Guardian2Id, @Parent2UserId, N'陳爸爸', N'0910-200-002', N'chen.jiazhang2@demo.local', @UtcNow, NULL),
+    (@Guardian3Id, @Parent3UserId, N'劉媽媽', N'0910-200-003', N'liu.jiazhang@demo.local', @UtcNow, NULL),
+    (@Guardian4Id, @Parent4UserId, N'王媽媽', N'0910-200-004', N'wang.jiazhang@demo.local', @UtcNow, NULL),
+    (@Guardian5Id, @Parent5UserId, N'林媽媽', N'0910-200-005', N'lin.jiazhang@demo.local', @UtcNow, NULL);
 
     INSERT INTO Routes (Id, RouteName, RouteType, Direction, CampusName, IsActive, CreatedAtUtc, UpdatedAtUtc)
     VALUES
-    (@RouteMorningBId, N'Linkou Morning Route B', 1, 1, N'Kang Chiao Linkou', 1, @UtcNow, NULL),
-    (@RouteMorningCId, N'Taipei Morning Route C', 1, 1, N'Kang Chiao Linkou', 1, @UtcNow, NULL),
-    (@RouteDismissalBId, N'Linkou Dismissal Route B', 1, 2, N'Kang Chiao Linkou', 1, @UtcNow, NULL),
-    (@RouteDoorToDoorBId, N'Kindergarten Door-to-Door B', 2, 2, N'Kang Chiao Linkou', 1, @UtcNow, NULL);
+    (@RouteMorningBId, N'林口上午線 B', 1, 1, N'康橋林口校區', 1, @UtcNow, NULL),
+    (@RouteMorningCId, N'台北上午線 C', 1, 1, N'康橋林口校區', 1, @UtcNow, NULL),
+    (@RouteDismissalBId, N'林口放學線 B', 1, 2, N'康橋林口校區', 1, @UtcNow, NULL),
+    (@RouteDoorToDoorBId, N'幼兒園到府線 B', 2, 2, N'康橋林口校區', 1, @UtcNow, NULL);
 
     INSERT INTO RouteStops (Id, RouteId, Sequence, StopName, Address, HandoffContactName, HandoffContactPhone, CreatedAtUtc, UpdatedAtUtc)
     VALUES
-    ('63100000-0000-0000-0000-000000000001', @RouteMorningBId, 1, N'Linkou Station', N'No. 8, Wenhua 3rd Rd., Linkou Dist.', NULL, NULL, @UtcNow, NULL),
-    ('63100000-0000-0000-0000-000000000002', @RouteMorningBId, 2, N'A9 Mitsui Stop', N'No. 1, Wenhua 3rd Rd., Linkou Dist.', NULL, NULL, @UtcNow, NULL),
-    ('63100000-0000-0000-0000-000000000003', @RouteMorningBId, 3, N'Campus Gate', N'No. 1, Xingfu Rd., Linkou Dist.', NULL, NULL, @UtcNow, NULL),
-    ('63100000-0000-0000-0000-000000000004', @RouteMorningCId, 1, N'Xingtian Temple', N'No. 139, Minquan E. Rd., Taipei City', NULL, NULL, @UtcNow, NULL),
-    ('63100000-0000-0000-0000-000000000005', @RouteMorningCId, 2, N'Yuanshan Station', N'No. 163, Jihe Rd., Taipei City', NULL, NULL, @UtcNow, NULL),
-    ('63100000-0000-0000-0000-000000000006', @RouteMorningCId, 3, N'Campus Gate', N'No. 1, Xingfu Rd., Linkou Dist.', NULL, NULL, @UtcNow, NULL),
-    ('63100000-0000-0000-0000-000000000007', @RouteDismissalBId, 1, N'Campus Gate', N'No. 1, Xingfu Rd., Linkou Dist.', NULL, NULL, @UtcNow, NULL),
-    ('63100000-0000-0000-0000-000000000008', @RouteDismissalBId, 2, N'A9 Mitsui Stop', N'No. 1, Wenhua 3rd Rd., Linkou Dist.', NULL, NULL, @UtcNow, NULL),
-    ('63100000-0000-0000-0000-000000000009', @RouteDismissalBId, 3, N'Linkou Station', N'No. 8, Wenhua 3rd Rd., Linkou Dist.', NULL, NULL, @UtcNow, NULL),
-    ('63100000-0000-0000-0000-000000000010', @RouteDoorToDoorBId, 1, N'Mia Home', N'No. 28, Fuxing Rd., Linkou Dist.', N'Iris Wang', N'0900-200-004', @UtcNow, NULL),
-    ('63100000-0000-0000-0000-000000000011', @RouteDoorToDoorBId, 2, N'Noah Home', N'No. 36, Renai Rd., Linkou Dist.', N'Nina Lin', N'0900-200-005', @UtcNow, NULL),
-    ('63100000-0000-0000-0000-000000000012', @RouteDoorToDoorBId, 3, N'Ethan Temporary Drop-Off', N'No. 100, Civic Blvd., Linkou Dist.', N'Grace Chen', N'0900-200-001', @UtcNow, NULL);
+    ('63100000-0000-0000-0000-000000000001', @RouteMorningBId, 1, N'林口站', N'新北市林口區文化三路 8 號', NULL, NULL, @UtcNow, NULL),
+    ('63100000-0000-0000-0000-000000000002', @RouteMorningBId, 2, N'A9 三井站', N'新北市林口區文化三路一段 1 號', NULL, NULL, @UtcNow, NULL),
+    ('63100000-0000-0000-0000-000000000003', @RouteMorningBId, 3, N'校門口', N'新北市林口區幸福路 1 號', NULL, NULL, @UtcNow, NULL),
+    ('63100000-0000-0000-0000-000000000004', @RouteMorningCId, 1, N'行天宮站', N'台北市中山區民權東路二段 139 號', NULL, NULL, @UtcNow, NULL),
+    ('63100000-0000-0000-0000-000000000005', @RouteMorningCId, 2, N'圓山站', N'台北市大同區酒泉街 9 號', NULL, NULL, @UtcNow, NULL),
+    ('63100000-0000-0000-0000-000000000006', @RouteMorningCId, 3, N'校門口', N'新北市林口區幸福路 1 號', NULL, NULL, @UtcNow, NULL),
+    ('63100000-0000-0000-0000-000000000007', @RouteDismissalBId, 1, N'校門口', N'新北市林口區幸福路 1 號', NULL, NULL, @UtcNow, NULL),
+    ('63100000-0000-0000-0000-000000000008', @RouteDismissalBId, 2, N'A9 三井站', N'新北市林口區文化三路一段 1 號', NULL, NULL, @UtcNow, NULL),
+    ('63100000-0000-0000-0000-000000000009', @RouteDismissalBId, 3, N'林口站', N'新北市林口區文化三路 8 號', NULL, NULL, @UtcNow, NULL),
+    ('63100000-0000-0000-0000-000000000010', @RouteDoorToDoorBId, 1, N'王雨婷住家', N'新北市林口區復興路 28 號', N'王媽媽', N'0910-200-004', @UtcNow, NULL),
+    ('63100000-0000-0000-0000-000000000011', @RouteDoorToDoorBId, 2, N'林小宇住家', N'新北市林口區仁愛路 36 號', N'林媽媽', N'0910-200-005', @UtcNow, NULL),
+    ('63100000-0000-0000-0000-000000000012', @RouteDoorToDoorBId, 3, N'陳小明臨時下車點', N'新北市林口區市民大道 100 號', N'陳媽媽', N'0910-200-001', @UtcNow, NULL);
 
     INSERT INTO Students (Id, UserId, StudentNumber, FullName, Stage, GradeLabel, DefaultRouteId, CreatedAtUtc, UpdatedAtUtc)
     VALUES
-    (@Student1Id, @Student1UserId, N'S20001', N'Ethan Chen', 2, N'Grade 4', @RouteMorningBId, @UtcNow, NULL),
-    (@Student2Id, @Student2UserId, N'S20002', N'Emma Chen', 3, N'Grade 7', @RouteMorningBId, @UtcNow, NULL),
-    (@Student3Id, @Student3UserId, N'S20003', N'Leo Liu', 4, N'Grade 10', @RouteMorningCId, @UtcNow, NULL),
-    (@Student4Id, @Student4UserId, N'S20004', N'Mia Wang', 2, N'Grade 5', @RouteMorningBId, @UtcNow, NULL),
-    (@Student5Id, @Student5UserId, N'S20005', N'Noah Lin', 1, N'K2', @RouteMorningCId, @UtcNow, NULL);
+    (@Student1Id, @Student1UserId, N'S20001', N'陳小明', 2, N'四年級', @RouteMorningBId, @UtcNow, NULL),
+    (@Student2Id, @Student2UserId, N'S20002', N'陳小美', 3, N'七年級', @RouteMorningBId, @UtcNow, NULL),
+    (@Student3Id, @Student3UserId, N'S20003', N'劉子豪', 4, N'高一', @RouteMorningCId, @UtcNow, NULL),
+    (@Student4Id, @Student4UserId, N'S20004', N'王雨婷', 2, N'五年級', @RouteMorningBId, @UtcNow, NULL),
+    (@Student5Id, @Student5UserId, N'S20005', N'林小宇', 1, N'幼大班', @RouteMorningCId, @UtcNow, NULL);
 
     INSERT INTO StudentGuardianLinks (Id, StudentId, GuardianId, IsPrimaryContact, CreatedAtUtc, UpdatedAtUtc)
     VALUES
@@ -288,16 +288,16 @@ BEGIN TRY
 
     INSERT INTO AttendanceRecords (Id, AttendanceSessionId, StudentId, Status, EmergencyPhoneSnapshot, CreatedAtUtc, UpdatedAtUtc)
     VALUES
-    ('68100000-0000-0000-0000-000000000001', '68000000-0000-0000-0000-000000000001', @Student1Id, 2, N'0900-200-001', @UtcNow, NULL),
-    ('68100000-0000-0000-0000-000000000002', '68000000-0000-0000-0000-000000000001', @Student2Id, 3, N'0900-200-001', @UtcNow, NULL),
-    ('68100000-0000-0000-0000-000000000003', '68000000-0000-0000-0000-000000000001', @Student4Id, 2, N'0900-200-004', @UtcNow, NULL),
-    ('68100000-0000-0000-0000-000000000004', '68000000-0000-0000-0000-000000000002', @Student3Id, 2, N'0900-200-003', @UtcNow, NULL),
-    ('68100000-0000-0000-0000-000000000005', '68000000-0000-0000-0000-000000000002', @Student5Id, 2, N'0900-200-005', @UtcNow, NULL),
-    ('68100000-0000-0000-0000-000000000006', '68000000-0000-0000-0000-000000000003', @Student1Id, 2, N'0900-200-001', @UtcNow, NULL),
-    ('68100000-0000-0000-0000-000000000007', '68000000-0000-0000-0000-000000000003', @Student2Id, 4, N'0900-200-001', @UtcNow, NULL),
-    ('68100000-0000-0000-0000-000000000008', '68000000-0000-0000-0000-000000000003', @Student3Id, 2, N'0900-200-003', @UtcNow, NULL),
-    ('68100000-0000-0000-0000-000000000009', '68000000-0000-0000-0000-000000000003', @Student4Id, 2, N'0900-200-004', @UtcNow, NULL),
-    ('68100000-0000-0000-0000-000000000010', '68000000-0000-0000-0000-000000000004', @Student5Id, 2, N'0900-200-005', @UtcNow, NULL);
+    ('68100000-0000-0000-0000-000000000001', '68000000-0000-0000-0000-000000000001', @Student1Id, 2, N'0910-200-001', @UtcNow, NULL),
+    ('68100000-0000-0000-0000-000000000002', '68000000-0000-0000-0000-000000000001', @Student2Id, 3, N'0910-200-001', @UtcNow, NULL),
+    ('68100000-0000-0000-0000-000000000003', '68000000-0000-0000-0000-000000000001', @Student4Id, 2, N'0910-200-004', @UtcNow, NULL),
+    ('68100000-0000-0000-0000-000000000004', '68000000-0000-0000-0000-000000000002', @Student3Id, 2, N'0910-200-003', @UtcNow, NULL),
+    ('68100000-0000-0000-0000-000000000005', '68000000-0000-0000-0000-000000000002', @Student5Id, 2, N'0910-200-005', @UtcNow, NULL),
+    ('68100000-0000-0000-0000-000000000006', '68000000-0000-0000-0000-000000000003', @Student1Id, 2, N'0910-200-001', @UtcNow, NULL),
+    ('68100000-0000-0000-0000-000000000007', '68000000-0000-0000-0000-000000000003', @Student2Id, 4, N'0910-200-001', @UtcNow, NULL),
+    ('68100000-0000-0000-0000-000000000008', '68000000-0000-0000-0000-000000000003', @Student3Id, 2, N'0910-200-003', @UtcNow, NULL),
+    ('68100000-0000-0000-0000-000000000009', '68000000-0000-0000-0000-000000000003', @Student4Id, 2, N'0910-200-004', @UtcNow, NULL),
+    ('68100000-0000-0000-0000-000000000010', '68000000-0000-0000-0000-000000000004', @Student5Id, 2, N'0910-200-005', @UtcNow, NULL);
 
     INSERT INTO DispatchOverrides (Id, StudentId, RouteId, Date, Direction, Status, CreatedAtUtc, UpdatedAtUtc)
     VALUES
@@ -305,21 +305,21 @@ BEGIN TRY
 
     INSERT INTO NotificationTemplates (Id, TemplateName, Subject, Body, CreatedAtUtc, UpdatedAtUtc)
     VALUES
-    ('70000000-0000-0000-0000-000000000001', N'Weekly Reminder - EN', N'Shuttle bus registration reminder', N'Please confirm next week''s bus registrations before Friday 18:00.', @UtcNow, NULL);
+    ('70000000-0000-0000-0000-000000000001', N'每週搭車提醒', N'校車搭乘登記提醒', N'請於週五晚上六點前完成下週校車登記。', @UtcNow, NULL);
 
     INSERT INTO NotificationJobs (Id, JobType, Channel, Subject, Body, CreatedByUserId, CreatedAtUtc, UpdatedAtUtc)
     VALUES
-    ('70000000-0000-0000-0000-000000000002', N'Broadcast', 1, N'Friday registration reminder', N'Please finish next week''s registration before Friday evening.', @AdminUserId, @UtcNow, NULL);
+    ('70000000-0000-0000-0000-000000000002', N'Broadcast', 1, N'週五登記提醒', N'請在本週五前完成下週校車搭乘登記。', @AdminUserId, @UtcNow, NULL);
 
     INSERT INTO NotificationDeliveries (Id, NotificationJobId, RecipientUserId, RecipientEmail, Status, SentAtUtc, ErrorMessage, CreatedAtUtc, UpdatedAtUtc)
     VALUES
-    ('70000000-0000-0000-0000-000000000003', '70000000-0000-0000-0000-000000000002', @Parent1UserId, N'grace.chen.parent@demo.local', N'Sent', @UtcNow, NULL, @UtcNow, NULL),
-    ('70000000-0000-0000-0000-000000000004', '70000000-0000-0000-0000-000000000002', @Parent3UserId, N'sophia.liu.parent@demo.local', N'Sent', @UtcNow, NULL, @UtcNow, NULL),
-    ('70000000-0000-0000-0000-000000000005', '70000000-0000-0000-0000-000000000002', @Parent5UserId, N'nina.lin.parent@demo.local', N'Sent', @UtcNow, NULL, @UtcNow, NULL);
+    ('70000000-0000-0000-0000-000000000003', '70000000-0000-0000-0000-000000000002', @Parent1UserId, N'chen.jiazhang1@demo.local', N'Sent', @UtcNow, NULL, @UtcNow, NULL),
+    ('70000000-0000-0000-0000-000000000004', '70000000-0000-0000-0000-000000000002', @Parent3UserId, N'liu.jiazhang@demo.local', N'Sent', @UtcNow, NULL, @UtcNow, NULL),
+    ('70000000-0000-0000-0000-000000000005', '70000000-0000-0000-0000-000000000002', @Parent5UserId, N'lin.jiazhang@demo.local', N'Sent', @UtcNow, NULL, @UtcNow, NULL);
 
     INSERT INTO BroadcastAnnouncements (Id, Audience, Subject, Body, CreatedByUserId, CreatedAtUtc, UpdatedAtUtc)
     VALUES
-    ('70000000-0000-0000-0000-000000000006', 2, N'Weather notice', N'Friday dismissal will be delayed by 15 minutes because of heavy rain.', @AdminUserId, @UtcNow, NULL);
+    ('70000000-0000-0000-0000-000000000006', 2, N'天候通知', N'因大雨影響，本週五放學班車預計延後十五分鐘發車。', @AdminUserId, @UtcNow, NULL);
 
     COMMIT TRANSACTION;
 

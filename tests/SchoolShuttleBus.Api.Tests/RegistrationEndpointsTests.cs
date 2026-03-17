@@ -18,7 +18,7 @@ public sealed class RegistrationEndpointsTests : IClassFixture<SchoolShuttleBusA
     public async Task GetWeek_ShouldReturnFiveDays_ForLinkedParent()
     {
         using var client = _factory.CreateClient();
-        var token = await client.LoginAndGetAccessTokenAsync("parent@demo.local", "P@ssw0rd!");
+        var token = await client.LoginAndGetAccessTokenAsync("0900-000-003", "P@ssw0rd!");
         using var request = new HttpRequestMessage(HttpMethod.Get, $"/api/registrations/weeks/2026-03-16?studentId={DemoSeedConstants.StudentId}");
         request.Headers.Authorization = new("Bearer", token);
 
@@ -34,7 +34,7 @@ public sealed class RegistrationEndpointsTests : IClassFixture<SchoolShuttleBusA
     public async Task CopyLastWeek_ShouldDuplicatePreviousWeekSchedule()
     {
         using var client = _factory.CreateClient();
-        var token = await client.LoginAndGetAccessTokenAsync("parent@demo.local", "P@ssw0rd!");
+        var token = await client.LoginAndGetAccessTokenAsync("0900-000-003", "P@ssw0rd!");
         using var request = new HttpRequestMessage(HttpMethod.Post, $"/api/registrations/weeks/2026-03-23/copy-last-week?studentId={DemoSeedConstants.StudentId}");
         request.Headers.Authorization = new("Bearer", token);
 

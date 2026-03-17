@@ -61,6 +61,10 @@ public sealed class SchoolShuttleBusDbContext(DbContextOptions<SchoolShuttleBusD
             .HasIndex(registration => new { registration.StudentId, registration.Date, registration.Direction })
             .IsUnique();
 
+        builder.Entity<StaffProfile>()
+            .HasIndex(profile => profile.EmployeeNumber)
+            .IsUnique();
+
         builder.Entity<AttendanceRecord>()
             .HasIndex(record => new { record.AttendanceSessionId, record.StudentId })
             .IsUnique();

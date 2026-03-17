@@ -20,7 +20,7 @@ public sealed class AuthEndpointsTests : IClassFixture<SchoolShuttleBusApiFactor
 
         var response = await client.PostAsJsonAsync("/api/auth/login", new
         {
-            email = "admin@demo.local",
+            account = "E0001",
             password = "P@ssw0rd!"
         });
 
@@ -38,7 +38,7 @@ public sealed class AuthEndpointsTests : IClassFixture<SchoolShuttleBusApiFactor
         using var client = _factory.CreateClient();
         var login = await client.PostAsJsonAsync("/api/auth/login", new
         {
-            email = "admin@demo.local",
+            account = "E0001",
             password = "P@ssw0rd!"
         });
 
@@ -59,6 +59,27 @@ public sealed class AuthEndpointsTests : IClassFixture<SchoolShuttleBusApiFactor
         me.Should().NotBeNull();
         me!.Email.Should().Be("admin@demo.local");
         me.Roles.Should().Contain("Administrator");
+    }
+
+    [Theory]
+    [InlineData("E0001")]
+    [InlineData("S10001")]
+    [InlineData("0900-000-003")]
+    public async Task Login_ShouldAcceptConfiguredAccountIdentifiers(string account)
+    {
+        using var client = _factory.CreateClient();
+
+        var response = await client.PostAsJsonAsync("/api/auth/login", new
+        {
+            account,
+            password = "P@ssw0rd!"
+        });
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var payload = await response.Content.ReadFromJsonAsync<TokenEnvelope>();
+        payload.Should().NotBeNull();
+        payload!.AccessToken.Should().NotBeNullOrWhiteSpace();
     }
 
     private sealed record TokenEnvelope(string AccessToken, string RefreshToken);
