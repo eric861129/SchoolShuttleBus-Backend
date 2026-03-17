@@ -12,7 +12,8 @@ namespace SchoolShuttleBus.Infrastructure.Registrations;
 
 internal sealed class RegistrationService(
     SchoolShuttleBusDbContext dbContext,
-    ICurrentUserAccessor currentUserAccessor) : IRegistrationService
+    ICurrentUserAccessor currentUserAccessor,
+    ILocalTimeProvider localTimeProvider) : IRegistrationService
 {
     public async Task<Result<WeeklyRegistrationResponse>> GetWeekAsync(Guid studentId, DateOnly weekStart, CancellationToken cancellationToken)
     {
@@ -39,6 +40,13 @@ internal sealed class RegistrationService(
                                    registration.Date >= request.WeekStart &&
                                    registration.Date <= request.WeekStart.AddDays(4))
             .ToListAsync(cancellationToken);
+        var hasSubmittedWeek = RegistrationWindowPolicy.HasSubmittedWeek(existing.Count);
+
+        if (ShouldEnforceFamilyRegistrationWindow() &&
+            !RegistrationWindowPolicy.CanSubmit(localTimeProvider.Today, request.WeekStart, hasSubmittedWeek))
+        {
+            return Result<WeeklyRegistrationResponse>.Fail(GetRegistrationWindowErrorMessage(localTimeProvider.Today.DayOfWeek));
+        }
 
         foreach (var day in request.Days)
         {
@@ -71,6 +79,13 @@ internal sealed class RegistrationService(
                                    registration.Date >= weekStart &&
                                    registration.Date <= weekStart.AddDays(4))
             .ToListAsync(cancellationToken);
+        var hasSubmittedWeek = RegistrationWindowPolicy.HasSubmittedWeek(targetRegistrations.Count);
+
+        if (ShouldEnforceFamilyRegistrationWindow() &&
+            !RegistrationWindowPolicy.CanSubmit(localTimeProvider.Today, weekStart, hasSubmittedWeek))
+        {
+            return Result<WeeklyRegistrationResponse>.Fail(GetRegistrationWindowErrorMessage(localTimeProvider.Today.DayOfWeek));
+        }
 
         foreach (var source in sourceRegistrations)
         {
@@ -189,6 +204,21 @@ internal sealed class RegistrationService(
             })
             .ToArray();
 
-        return new WeeklyRegistrationResponse(student.Id, student.FullName, weekStart, days);
+        return new WeeklyRegistrationResponse(
+            student.Id,
+            student.FullName,
+            weekStart,
+            days,
+            RegistrationWindowPolicy.HasSubmittedWeek(registrations.Count));
+    }
+
+    private bool ShouldEnforceFamilyRegistrationWindow() =>
+        currentUserAccessor.IsInRole(RoleNames.Student) || currentUserAccessor.IsInRole(RoleNames.Parent);
+
+    private static string GetRegistrationWindowErrorMessage(DayOfWeek dayOfWeek) => dayOfWeek switch
+    {
+        DayOfWeek.Thursday => "Thursday only allows a one-time submission for next week. Submitted registrations can no longer be changed.",
+        DayOfWeek.Friday => "Friday closes both new registrations and changes for next week while administrators prepare their summary.",
+        _ => "This registration window is currently locked."
     }
 }

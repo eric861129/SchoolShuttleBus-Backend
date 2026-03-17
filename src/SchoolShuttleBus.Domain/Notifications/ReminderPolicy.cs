@@ -9,6 +9,6 @@ public static class ReminderPolicy
             return false;
         }
 
-        return snapshot.CurrentDate.DayOfWeek is DayOfWeek.Thursday or DayOfWeek.Friday;
+        return snapshot.CurrentDate.DayOfWeek is DayOfWeek.Wednesday or DayOfWeek.Thursday;
     }
 }

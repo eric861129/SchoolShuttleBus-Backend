@@ -2,12 +2,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using SchoolShuttleBus.Application.Common;
 using SchoolShuttleBus.Application.Notifications;
 
 namespace SchoolShuttleBus.Infrastructure.Notifications;
 
 internal sealed class ReminderBackgroundService(
     IServiceScopeFactory serviceScopeFactory,
+    ILocalTimeProvider localTimeProvider,
     IOptions<ReminderOptions> options,
     ILogger<ReminderBackgroundService> logger) : BackgroundService
 {
@@ -26,12 +28,11 @@ internal sealed class ReminderBackgroundService(
         {
             try
             {
-                var timeZone = TimeZoneInfo.FindSystemTimeZoneById(_options.TimeZoneId);
-                var localNow = TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, timeZone);
-                var localDate = DateOnly.FromDateTime(localNow.DateTime);
+                var localNow = localTimeProvider.Now;
+                var localDate = localTimeProvider.Today;
 
                 if (localNow.Hour == _options.RunHourLocal &&
-                    localNow.DayOfWeek is DayOfWeek.Thursday or DayOfWeek.Friday &&
+                    localNow.DayOfWeek is DayOfWeek.Wednesday or DayOfWeek.Thursday &&
                     _lastRunDate != localDate)
                 {
                     await using var scope = serviceScopeFactory.CreateAsyncScope();

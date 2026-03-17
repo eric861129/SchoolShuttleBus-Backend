@@ -16,6 +16,7 @@ using SchoolShuttleBus.Application.Routes;
 using SchoolShuttleBus.Infrastructure.Admin;
 using SchoolShuttleBus.Infrastructure.Attendance;
 using SchoolShuttleBus.Infrastructure.Auth;
+using SchoolShuttleBus.Infrastructure.Common;
 using SchoolShuttleBus.Infrastructure.Notifications;
 using SchoolShuttleBus.Infrastructure.Persistence;
 using SchoolShuttleBus.Infrastructure.Registrations;
@@ -74,6 +75,8 @@ public static class DependencyInjection
         {
             client.BaseAddress = new Uri("https://api.mailjet.com/");
         });
+        services.AddSingleton(TimeProvider.System);
+        services.AddSingleton<ILocalTimeProvider, LocalTimeProvider>();
         services.AddScoped<ICurrentUserAccessor, CurrentUserAccessor>();
         services.AddScoped<ITokenFactory, JwtTokenFactory>();
         services.AddScoped<IAuthService, AuthService>();

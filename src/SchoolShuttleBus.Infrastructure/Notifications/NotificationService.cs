@@ -5,6 +5,7 @@ using SchoolShuttleBus.Contracts.Admin;
 using SchoolShuttleBus.Contracts.Notifications;
 using SchoolShuttleBus.Domain.Entities;
 using SchoolShuttleBus.Domain.Notifications;
+using SchoolShuttleBus.Domain.Registrations;
 using SchoolShuttleBus.Domain.Shared;
 using SchoolShuttleBus.Infrastructure.Persistence;
 
@@ -12,11 +13,13 @@ namespace SchoolShuttleBus.Infrastructure.Notifications;
 
 internal sealed class NotificationService(
     SchoolShuttleBusDbContext dbContext,
-    IEmailDispatcher emailDispatcher) : INotificationService
+    IEmailDispatcher emailDispatcher,
+    ILocalTimeProvider localTimeProvider) : INotificationService
 {
     public async Task<Result<ReminderRunResponse>> RunRemindersAsync(Guid? actorUserId, CancellationToken cancellationToken)
     {
-        var targetWeekStart = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(7 - (int)DateTime.UtcNow.DayOfWeek + (int)DayOfWeek.Monday);
+        var localDate = localTimeProvider.Today;
+        var targetWeekStart = localTimeProvider.NextWeekStart;
         var students = await dbContext.Students
             .Include(student => student.GuardianLinks)
                 .ThenInclude(link => link.Guardian)
@@ -39,7 +42,11 @@ internal sealed class NotificationService(
                                 registration.Date <= targetWeekStart.AddDays(4),
                 cancellationToken);
 
-            var shouldSend = ReminderPolicy.ShouldSendReminder(ReminderSnapshot.Create(UserRole.Parent, targetWeekStart, count >= 10)) || count < 10;
+            var shouldSend = ReminderPolicy.ShouldSendReminder(
+                ReminderSnapshot.Create(
+                    UserRole.Parent,
+                    localDate,
+                    RegistrationWindowPolicy.HasSubmittedWeek(count)));
             if (!shouldSend)
             {
                 continue;

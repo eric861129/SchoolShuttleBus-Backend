@@ -8,6 +8,6 @@ public sealed record UpdateWeeklyRegistrationRequest(Guid StudentId, DateOnly We
 
 public sealed record RegistrationDayResponse(DateOnly Date, bool ToSchool, bool Homebound, Guid? ToSchoolRouteId, Guid? HomeboundRouteId);
 
-public sealed record WeeklyRegistrationResponse(Guid StudentId, string StudentName, DateOnly WeekStart, IReadOnlyCollection<RegistrationDayResponse> Days);
+public sealed record WeeklyRegistrationResponse(Guid StudentId, string StudentName, DateOnly WeekStart, IReadOnlyCollection<RegistrationDayResponse> Days, bool HasSubmittedWeek);
 
 public sealed record StudentRegistrationSummaryResponse(Guid StudentId, string StudentName, int RegisteredTrips, int PresentTrips, StudentStage Stage);
