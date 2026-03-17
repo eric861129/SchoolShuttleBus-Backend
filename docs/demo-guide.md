@@ -1,11 +1,11 @@
-# 校車管理系統二面 Demo 指南
+# 校車管理系統 Demo 指南
 
 ## 文件用途
 
 這份文件同時提供：
 
-- 面試現場可直接照著講的講稿重點
-- Swagger / Azure / CI/CD 的實際操作流程
+- 面試現場可直接使用的講稿重點
+- Swagger 操作順序與角色切換方式
 - Demo 帳號與建議切換順序
 - 面試官常見追問的回答方向
 
@@ -15,7 +15,7 @@
 
 ## 一、專案一句話介紹
 
-這是一套以 ASP.NET Core 8 開發的校車管理後端系統，主要解決學生每週搭車登記、老師車上點名、管理者路線與調度管理，以及通知提醒與報表輸出的需求；整體已完成資料庫建模、JWT 驗證、Swagger 文件、Azure 雲端部署與 GitHub Actions CI/CD。
+這是一套以 ASP.NET Core 8 開發的校車管理後端系統，主要解決學生每週搭車登記、老師車上點名、管理者路線與調度管理，以及通知提醒與報表輸出的需求；整體已完成資料庫建模、JWT 驗證、Swagger 文件與可直接展示的 demo 資料。
 
 ---
 
@@ -36,8 +36,8 @@
 
 - 管理員：`E0001`
 - 教師：`T0001`
-- 家長：`0910-200-001`
-- 學生：`S20001`
+- 家長：`0900-000-003`
+- 學生：`S10001`
 
 ### 3. 建議展示順序
 
@@ -54,7 +54,7 @@
 
 可以直接這樣講：
 
-「這個專案是我設計的一套校車管理後端系統，主要服務對象包含管理員、教師、家長與學生。系統支援每週搭乘登記、點名、路線管理、通知提醒以及報表匯出。技術上我使用 ASP.NET Core 8、Entity Framework Core、SQL Server 與 JWT 驗證，並部署到 Azure App Service，資料庫使用 Azure SQL，整體部署流程則透過 GitHub Actions 完成 CI/CD。」 
+「這個專案是我設計的一套校車管理後端系統，主要服務對象包含管理員、教師、家長與學生。系統支援每週搭乘登記、點名、路線管理、通知提醒以及報表匯出。技術上我使用 ASP.NET Core 8、Entity Framework Core、SQL Server 與 JWT 驗證，並透過 Swagger 直接展示角色權限與核心流程。」 
 
 如果要再補一句：
 
@@ -80,13 +80,7 @@
 
 可以這樣說：
 
-「資料庫由 EF Core migration 管理，啟動時可自動套用 migration。除了內建 seed，我另外準備了一份一次性 Azure SQL demo 資料腳本，包含中文姓名、中文路線、學生、家長、教師、點名與搭車資料，方便面試展示。」
-
-### 4. 雲端部署
-
-可以這樣說：
-
-「目前 API 已部署在 Azure App Service，資料庫是 Azure SQL。CI/CD 使用 GitHub Actions，push 到 main 後會自動 build 並部署到 Azure。」
+「資料庫由 EF Core migration 管理，啟動後會自動建立可 Demo 的基礎資料，讓我可以直接切換管理員、教師、家長與學生角色展示流程。」
 
 ---
 
@@ -182,7 +176,7 @@
 
 ```json
 {
-  "account": "0910-200-001",
+  "account": "0900-000-003",
   "password": "P@ssw0rd!"
 }
 ```
@@ -204,7 +198,7 @@
 
 ```json
 {
-  "account": "S20001",
+  "account": "S10001",
   "password": "P@ssw0rd!"
 }
 ```
@@ -227,34 +221,11 @@
 - 登入模式有依真實身份改成 account，而不是單純 email
 - Swagger 文件與 XML doc 已完整中文化，方便溝通與交接
 - 資料模型有完整角色與關聯，不只是簡單 CRUD
-- EF Core migration 與 Azure SQL 已打通
-- GitHub Actions 已完成雲端部署自動化
+- EF Core migration 與 seed data 已串成可重現的展示流程
 
 ---
 
-## 七、CI/CD 講稿
-
-可以這樣說：
-
-「這個專案已經部署到 Azure App Service，資料庫使用 Azure SQL。CI/CD 是透過 GitHub Actions 完成，當 main 分支更新時會自動 build、publish 並部署到 App Service。部署初期我也實際處理過 Azure 連線字串與 App Service 啟動問題，所以這個流程不只是理論設計，而是真的跑過的。」
-
-如果面試官追問：
-
-- Workflow 在哪裡：`.github/workflows/main_app-school-shuttlebus-demo.yml`
-- 部署方式：Publish Profile
-- 啟動問題怎麼排查：App Service logs、Kudu、connection string 檢查
-
----
-
-## 八、Azure 講稿
-
-可以這樣說：
-
-「Azure 這邊我使用 App Service 部署 API，Azure SQL 放資料庫，並把必要設定如 JWT、資料庫連線字串放在 App Service 的環境變數中。這樣可以把部署設定與程式碼分離，也比較符合正式環境的配置方式。」
-
----
-
-## 九、常見追問與回答方向
+## 七、常見追問與回答方向
 
 ### 1. 為什麼用分層架構？
 
@@ -286,8 +257,8 @@
 
 ---
 
-## 十、收尾講稿
+## 八、收尾講稿
 
 可以這樣結尾：
 
-「這個專案我不只完成了 API 與資料庫設計，也把 Swagger 文件、角色驗證、Azure 部署與 CI/CD 串起來，讓它是一個可以真正展示、測試與延伸的後端系統。若再往下一步做，我會優先補上更完整的前端與正式通知流程，讓它更接近可上線版本。」
+「這個專案我不只完成了 API 與資料庫設計，也把 Swagger 文件、角色驗證與 demo 資料串起來，讓它是一個可以真正展示、測試與延伸的後端系統。若再往下一步做，我會優先補上更完整的前端與正式通知流程，讓它更接近可上線版本。」

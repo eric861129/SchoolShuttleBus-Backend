@@ -1,13 +1,13 @@
-# School Shuttle Bus Backend Demo
+# School Shuttle Bus Backend
 
-康橋智慧交通車登記系統後端示範專案，使用 `.NET 8`、`ASP.NET Core Web API`、`EF Core`、`ASP.NET Core Identity`、`JWT` 與 `Azure SQL Database` 建置。專案同時兼顧面試 Demo、作品集展示與實際可維運的工程結構。
+校車管理系統後端示範專案，使用 `.NET 8`、`ASP.NET Core Web API`、`EF Core`、`ASP.NET Core Identity`、`JWT` 與 `Azure SQL Database` 建置。這份專案以面試 Demo 與作品集展示為主，文件也整理成可直接提供給面試官閱讀的版本。
 
 ## 專案亮點
 
 - 模組化單體後端：`Api / Application / Domain / Infrastructure / Contracts`
 - 角色權限：`學生`、`家長`、`老師`、`管理員`
 - 核心流程：每週登記、套用上週、行動點名、路線管理、跨路線調度、提醒寄信、全域通知、報表匯出
-- 觀測與維運：`Serilog`、health checks、JWT Bearer Swagger、background service、自動 seed data
+- 展示友善：Swagger 可直接操作、內建 demo seed data、角色切換容易
 - 資料庫策略：正式以 `Azure SQL Database` 為主，測試採 `SQLite in-memory`
 
 ## 專案結構
@@ -27,11 +27,8 @@ docs/
   architecture.md
   api-overview.md
   erd-data-dictionary.md
-  deployment-azure-app-service.md
-  ci-cd.md
-  demo-script.md
-  testing-strategy.md
-  adr/
+  demo-guide.md
+  notebooklm/
 ```
 
 ## 已實作功能
@@ -40,6 +37,7 @@ docs/
 - `POST /api/auth/refresh`
 - `POST /api/auth/logout`
 - `GET /api/auth/me`
+- `GET /api/auth/context`
 - `GET /api/registrations/weeks/{weekStart}`
 - `PUT /api/registrations/weeks/{weekStart}`
 - `POST /api/registrations/weeks/{weekStart}/copy-last-week`
@@ -55,6 +53,7 @@ docs/
 - `POST /api/attendance/sessions/{sessionId}/complete`
 - `POST /api/notifications/reminders/run`
 - `GET /api/notifications/history`
+- `GET /api/admin/lookups`
 - `POST /api/admin/dispatches`
 - `POST /api/admin/broadcasts`
 - `POST /api/admin/reports`
@@ -89,29 +88,12 @@ https://localhost:5001/swagger
 
 ## Demo 帳號
 
-所有 seed 帳號密碼皆為 `P@ssw0rd!`
+所有 seed 帳號密碼皆為 `P@ssw0rd!`，登入欄位請使用 `account`：
 
-- `admin@demo.local`
-- `teacher@demo.local`
-- `parent@demo.local`
-- `student@demo.local`
-
-## 本機設定
-
-`src/SchoolShuttleBus.Api/appsettings.json` 內含開發預設值：
-
-- `ConnectionStrings:SchoolShuttleBus`
-- `Jwt:*`
-- `Mailjet:*`
-- `Reminders:*`
-
-如果要切到真實 Mailjet 寄信，請將以下值改為真實憑證：
-
-- `Mailjet:Enabled = true`
-- `Mailjet:ApiKey`
-- `Mailjet:ApiSecret`
-- `Mailjet:FromEmail`
-- `Mailjet:FromName`
+- `E0001` 管理員
+- `T0001` 教師
+- `0900-000-003` 家長
+- `S10001` 學生
 
 ## 測試
 
@@ -130,9 +112,5 @@ dotnet test SchoolShuttleBus.sln
 - [架構說明](docs/architecture.md)
 - [API 概覽](docs/api-overview.md)
 - [ERD / Data Dictionary](docs/erd-data-dictionary.md)
-- [Azure 部署指南](docs/deployment-azure-app-service.md)
-- [Azure Demo 服務清單](docs/azure-demo-services-checklist.md)
-- [CI/CD 規劃](docs/ci-cd.md)
-- [面試 Demo 劇本](docs/demo-script.md)
-- [測試策略](docs/testing-strategy.md)
-- [ADR-001 Azure SQL over Turso](docs/adr/001-azure-sql-over-turso.md)
+- [Demo 指南](docs/demo-guide.md)
+- [NotebookLM 文件包](docs/notebooklm/README.md)
