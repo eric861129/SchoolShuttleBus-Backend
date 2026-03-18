@@ -220,5 +220,5 @@ internal sealed class RegistrationService(
         DayOfWeek.Thursday => "Thursday only allows a one-time submission for next week. Submitted registrations can no longer be changed.",
         DayOfWeek.Friday => "Friday closes both new registrations and changes for next week while administrators prepare their summary.",
         _ => "This registration window is currently locked."
-    }
+    };
 }

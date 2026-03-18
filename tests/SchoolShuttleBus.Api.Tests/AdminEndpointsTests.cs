@@ -73,8 +73,8 @@ public sealed class AdminEndpointsTests : IClassFixture<SchoolShuttleBusApiFacto
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var payload = await response.Content.ReadFromJsonAsync<AdminLookupsEnvelope>();
         payload.Should().NotBeNull();
-        payload!.Students.Count.Should().BeGreaterOrEqualTo(5);
-        payload.StaffProfiles.Count.Should().BeGreaterOrEqualTo(3);
+        payload!.Students.Count.Should().BeGreaterThanOrEqualTo(5);
+        payload.StaffProfiles.Count.Should().BeGreaterThanOrEqualTo(3);
         payload.Students.Should().ContainSingle(student => student.StudentId == DemoSeedConstants.StudentId && student.StudentNumber == "S10001");
         payload.StaffProfiles.Should().Contain(profile => profile.StaffProfileId == DemoSeedConstants.AdminStaffProfileId && profile.EmployeeNumber == "E0001");
         payload.StaffProfiles.Should().Contain(profile => profile.StaffProfileId == DemoSeedConstants.StaffProfileId && profile.EmployeeNumber == "T0001");
